@@ -1,0 +1,36 @@
+{
+  "analysis": {
+    "colors": [
+      {
+        "id": "swatch_1_72",
+        "hex": "#20815A"
+      },
+      {
+        "id": "swatch_2_72",
+        "hex": "#D64545"
+      },
+      {
+        "id": "background_72",
+        "hex": "#FFFFFF"
+      },
+      {
+        "id": "text_72",
+        "hex": "#172033"
+      }
+    ],
+    "conflicts": [],
+    "threshold": 10
+  },
+  "context": {
+    "subject": "Matematika",
+    "grade": "SMP"
+  },
+  "expected": {
+    "visualType": "bar",
+    "dataType": "categorical",
+    "labels": {
+      "swatch_1_72": "Apel",
+      "swatch_2_72": "Jeruk"
+    }
+  }
+}

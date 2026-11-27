@@ -1,0 +1,46 @@
+{
+  "analysis": {
+    "colors": [
+      {
+        "id": "swatch_1_72",
+        "hex": "#20815A"
+      },
+      {
+        "id": "swatch_2_72",
+        "hex": "#D64545"
+      },
+      {
+        "id": "swatch_3_72",
+        "hex": "#3869C5"
+      },
+      {
+        "id": "background_72",
+        "hex": "#FFFFFF"
+      },
+      {
+        "id": "text_72",
+        "hex": "#172033"
+      }
+    ],
+    "conflicts": [],
+    "threshold": 10
+  },
+  "context": {
+    "subject": "Matematika",
+    "grade": "SMP"
+  },
+  "expected": {
+    "visualType": "bar",
+    "dataType": "ordinal",
+    "labels": {
+      "swatch_1_72": "Rendah",
+      "swatch_2_72": "Sedang",
+      "swatch_3_72": "Tinggi"
+    },
+    "orders": {
+      "swatch_1_72": 1,
+      "swatch_2_72": 2,
+      "swatch_3_72": 3
+    }
+  }
+}

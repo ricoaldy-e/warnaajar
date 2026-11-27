@@ -1,0 +1,329 @@
+{
+  "analysis": {
+    "colors": [
+      {
+        "id": "swatch_1_72",
+        "hex": "#20815A"
+      },
+      {
+        "id": "swatch_2_72",
+        "hex": "#D64545"
+      },
+      {
+        "id": "background_72",
+        "hex": "#FFFFFF"
+      },
+      {
+        "id": "text_72",
+        "hex": "#172033"
+      }
+    ],
+    "conflicts": [],
+    "threshold": 10
+  },
+  "semantic": {
+    "visualType": "bar",
+    "dataType": "categorical",
+    "categories": [
+      {
+        "colorId": "swatch_2_72",
+        "label": "Jeruk",
+        "included": true,
+        "order": null,
+        "suggestedPattern": "dots"
+      },
+      {
+        "colorId": "swatch_1_72",
+        "label": "Apel",
+        "included": true,
+        "order": null,
+        "suggestedPattern": "diagonal"
+      },
+      {
+        "colorId": "background_72",
+        "label": null,
+        "included": false,
+        "order": null
+      },
+      {
+        "colorId": "text_72",
+        "label": null,
+        "included": false,
+        "order": null
+      }
+    ],
+    "explanation": "Gambar memperlihatkan diagram batang 'Hasil panen kebun sekolah' dengan dua batang berwarna yang maknanya dijelaskan legenda: batang merah berarti Jeruk dan batang hijau berarti Apel. Kategori ini bersifat kategoris karena Jeruk dan Apel tidak memiliki tingkatan urutan intrinsik, sehingga semua order dibiarkan null. Warna putih adalah latar dan warna gelap adalah teks, jadi keduanya tidak termasuk pembawa informasi kategori. Pola berbeda disarankan agar kedua batang mudah dibedakan selain dari warna. Berdasarkan analysis.conflicts yang kosong, tidak ada indikasi konflik warna yang perlu dilaporkan; namun ini bukan jaminan bahwa gambar sudah sepenuhnya aksesibel. Hasil ini masih usulan AI dan perlu Bapak/Ibu guru periksa serta konfirmasi sebelum diperbaiki.",
+    "warnings": [
+      "Urutan kategori tidak dapat dipastikan dari gambar dan tidak relevan untuk data kategoris; seluruh order dibiarkan null.",
+      "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi; mohon pastikan hanya ada satu visual aktif sebelum repair.",
+      "Periksa kembali dan konfirmasi label legenda (Jeruk dan Apel), pilihan included, jenis data, serta pola yang disarankan sebelum memperbaiki gambar.",
+      "Simulasi buta warna dan pola hanya pendekatan; pola tidak menjamin keterbacaan bagi setiap pembaca."
+    ]
+  },
+  "mapping": {
+    "dataType": "categorical",
+    "categories": [
+      {
+        "colorId": "swatch_2_72",
+        "label": "Jeruk",
+        "included": true,
+        "order": null,
+        "suggestedPattern": "dots"
+      },
+      {
+        "colorId": "swatch_1_72",
+        "label": "Apel",
+        "included": true,
+        "order": null,
+        "suggestedPattern": "diagonal"
+      },
+      {
+        "colorId": "background_72",
+        "label": null,
+        "included": false,
+        "order": null
+      },
+      {
+        "colorId": "text_72",
+        "label": null,
+        "included": false,
+        "order": null
+      }
+    ]
+  },
+  "mappingReviewed": true,
+  "mappingReview": {
+    "method": "Agent comparison to source fixture, A=Apel green #20815A; B=Jeruk red #D64545; background/text excluded",
+    "corrections": []
+  },
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Batang mana yang mewakili kategori Jeruk?",
+      "expectedAnswer": "B"
+    },
+    {
+      "id": "q2",
+      "question": "Batang A mewakili kategori apa?",
+      "expectedAnswer": "Apel"
+    }
+  ],
+  "rico": {
+    "engine": "Actual image-repair source bundled read-only via Vite, executed in Chrome",
+    "filename": "phase6-source-warnaajar.png",
+    "width": 1200,
+    "height": 760,
+    "configs": [
+      {
+        "colorId": "swatch_2_72",
+        "kind": "dots",
+        "spacingPx": 10
+      },
+      {
+        "colorId": "swatch_1_72",
+        "kind": "diagonal",
+        "spacingPx": 10
+      }
+    ],
+    "warnings": [],
+    "appliedColorIds": [
+      "swatch_2_72",
+      "swatch_1_72"
+    ],
+    "sourceUnchanged": true,
+    "totalChanged": 4668,
+    "regionChanges": [
+      {
+        "name": "bar-A-Apel",
+        "changed": 2249
+      },
+      {
+        "name": "bar-B-Jeruk",
+        "changed": 1960
+      },
+      {
+        "name": "legend-Jeruk",
+        "changed": 152
+      },
+      {
+        "name": "legend-Apel",
+        "changed": 307
+      }
+    ],
+    "changedOutsideTargets": 0
+  },
+  "questionsReviewed": true,
+  "questionsReview": {
+    "method": "Agent verified against actual source: Jeruk is bar B; bar A is Apel. Both questions require category/legend.",
+    "corrections": []
+  },
+  "verification": {
+    "protan": {
+      "mode": "protan",
+      "items": [
+        {
+          "question": {
+            "id": "q1",
+            "question": "Batang mana yang mewakili kategori Jeruk?",
+            "expectedAnswer": "B"
+          },
+          "before": {
+            "answer": null,
+            "status": "uncertain"
+          },
+          "after": {
+            "answer": "B",
+            "status": "correct"
+          }
+        },
+        {
+          "question": {
+            "id": "q2",
+            "question": "Batang A mewakili kategori apa?",
+            "expectedAnswer": "Apel"
+          },
+          "before": {
+            "answer": null,
+            "status": "uncertain"
+          },
+          "after": {
+            "answer": "Apel",
+            "status": "correct"
+          }
+        }
+      ],
+      "warnings": [
+        "Uji Terbaca merupakan heuristik AI, bukan persepsi aktual siswa dengan CVD.",
+        "Scoring memakai pencocokan persis setelah normalisasi; sinonim atau format berbeda dapat dinilai incorrect."
+      ]
+    },
+    "deutan": {
+      "mode": "deutan",
+      "items": [
+        {
+          "question": {
+            "id": "q1",
+            "question": "Batang mana yang mewakili kategori Jeruk?",
+            "expectedAnswer": "B"
+          },
+          "before": {
+            "answer": "B",
+            "status": "correct"
+          },
+          "after": {
+            "answer": "B",
+            "status": "correct"
+          }
+        },
+        {
+          "question": {
+            "id": "q2",
+            "question": "Batang A mewakili kategori apa?",
+            "expectedAnswer": "Apel"
+          },
+          "before": {
+            "answer": "Apel",
+            "status": "correct"
+          },
+          "after": {
+            "answer": "Apel",
+            "status": "correct"
+          }
+        }
+      ],
+      "warnings": [
+        "Uji Terbaca merupakan heuristik AI, bukan persepsi aktual siswa dengan CVD.",
+        "Scoring memakai pencocokan persis setelah normalisasi; sinonim atau format berbeda dapat dinilai incorrect."
+      ]
+    },
+    "tritan": {
+      "mode": "tritan",
+      "items": [
+        {
+          "question": {
+            "id": "q1",
+            "question": "Batang mana yang mewakili kategori Jeruk?",
+            "expectedAnswer": "B"
+          },
+          "before": {
+            "answer": "B",
+            "status": "correct"
+          },
+          "after": {
+            "answer": "B",
+            "status": "correct"
+          }
+        },
+        {
+          "question": {
+            "id": "q2",
+            "question": "Batang A mewakili kategori apa?",
+            "expectedAnswer": "Apel"
+          },
+          "before": {
+            "answer": "Apel",
+            "status": "correct"
+          },
+          "after": {
+            "answer": "Apel",
+            "status": "correct"
+          }
+        }
+      ],
+      "warnings": [
+        "Uji Terbaca merupakan heuristik AI, bukan persepsi aktual siswa dengan CVD.",
+        "Scoring memakai pencocokan persis setelah normalisasi; sinonim atau format berbeda dapat dinilai incorrect."
+      ]
+    },
+    "grayscale": {
+      "mode": "grayscale",
+      "items": [
+        {
+          "question": {
+            "id": "q1",
+            "question": "Batang mana yang mewakili kategori Jeruk?",
+            "expectedAnswer": "B"
+          },
+          "before": {
+            "answer": null,
+            "status": "uncertain"
+          },
+          "after": {
+            "answer": "B",
+            "status": "correct"
+          }
+        },
+        {
+          "question": {
+            "id": "q2",
+            "question": "Batang A mewakili kategori apa?",
+            "expectedAnswer": "Apel"
+          },
+          "before": {
+            "answer": null,
+            "status": "uncertain"
+          },
+          "after": {
+            "answer": "Apel",
+            "status": "correct"
+          }
+        }
+      ],
+      "warnings": [
+        "Uji Terbaca merupakan heuristik AI, bukan persepsi aktual siswa dengan CVD.",
+        "Scoring memakai pencocokan persis setelah normalisasi; sinonim atau format berbeda dapat dinilai incorrect."
+      ]
+    }
+  },
+  "validation": {
+    "httpRequests": 6,
+    "providerCalls": 10,
+    "fullFlowPassed": true,
+    "blindPayloadAuditPassed": true,
+    "scoringVerified": true,
+    "questionsReusedIdentically": true,
+    "semanticGroundTruthPassed": true,
+    "mappingCorrections": [],
+    "keyCorrections": []
+  }
+}

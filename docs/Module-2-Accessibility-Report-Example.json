@@ -1,0 +1,122 @@
+{
+  "kind": "Actual synthetic API-flow report, not a clinical accessibility score",
+  "questionCount": 2,
+  "repair": {
+    "engine": "Actual image-repair source bundled read-only via Vite, executed in Chrome",
+    "filename": "phase6-source-warnaajar.png",
+    "width": 1200,
+    "height": 760,
+    "configs": [
+      {
+        "colorId": "swatch_2_72",
+        "kind": "dots",
+        "spacingPx": 10
+      },
+      {
+        "colorId": "swatch_1_72",
+        "kind": "diagonal",
+        "spacingPx": 10
+      }
+    ],
+    "warnings": [],
+    "appliedColorIds": [
+      "swatch_2_72",
+      "swatch_1_72"
+    ],
+    "sourceUnchanged": true,
+    "totalChanged": 4668,
+    "regionChanges": [
+      {
+        "name": "bar-A-Apel",
+        "changed": 2249
+      },
+      {
+        "name": "bar-B-Jeruk",
+        "changed": 1960
+      },
+      {
+        "name": "legend-Jeruk",
+        "changed": 152
+      },
+      {
+        "name": "legend-Apel",
+        "changed": 307
+      }
+    ],
+    "changedOutsideTargets": 0
+  },
+  "modes": {
+    "protan": {
+      "status": "success",
+      "before": {
+        "correct": 0,
+        "incorrect": 0,
+        "uncertain": 2,
+        "total": 2,
+        "percentageCorrect": 0
+      },
+      "after": {
+        "correct": 2,
+        "incorrect": 0,
+        "uncertain": 0,
+        "total": 2,
+        "percentageCorrect": 100
+      }
+    },
+    "deutan": {
+      "status": "success",
+      "before": {
+        "correct": 2,
+        "incorrect": 0,
+        "uncertain": 0,
+        "total": 2,
+        "percentageCorrect": 100
+      },
+      "after": {
+        "correct": 2,
+        "incorrect": 0,
+        "uncertain": 0,
+        "total": 2,
+        "percentageCorrect": 100
+      }
+    },
+    "tritan": {
+      "status": "success",
+      "before": {
+        "correct": 2,
+        "incorrect": 0,
+        "uncertain": 0,
+        "total": 2,
+        "percentageCorrect": 100
+      },
+      "after": {
+        "correct": 2,
+        "incorrect": 0,
+        "uncertain": 0,
+        "total": 2,
+        "percentageCorrect": 100
+      }
+    },
+    "grayscale": {
+      "status": "success",
+      "before": {
+        "correct": 0,
+        "incorrect": 0,
+        "uncertain": 2,
+        "total": 2,
+        "percentageCorrect": 0
+      },
+      "after": {
+        "correct": 2,
+        "incorrect": 0,
+        "uncertain": 0,
+        "total": 2,
+        "percentageCorrect": 100
+      }
+    }
+  },
+  "limitations": [
+    "QA simulations replace missing Icul module; actual Rico repair used.",
+    "Teacher review remains required; exact matching can reject synonyms."
+  ]
+}

@@ -1,7 +1,7 @@
 # WarnaAjar — PRD Modul 3: Image Repair & Pattern Engine
 
 > **Owner:** Rico  
-> **Versi:** 1.0 · turunan Master PRD v1.0 (27 November 2026)  
+> **Versi:** 1.1 · turunan Master PRD v1.1 (27 November 2026)  
 > **Tahap:** Perbaiki dan Export  
 > **Prioritas:** P0 · MVP  
 > **Acuan:** `PRD.md` di root repository. Target internal pengumpulan malam 29 November 2026.
@@ -10,7 +10,7 @@
 
 Menghasilkan gambar dengan pola pembeda nonwarna melalui masking deterministik, menjaga warna dan informasi asli serta konsistensi legenda. Modul menerima hanya mapping yang telah dikonfirmasi pengguna.
 
-WarnaAjar membantu pembuat materi menambahkan penanda nonwarna pada visual edukasi berbasis warna datar. Satu gambar per sesi, tanpa login. Output bukan alat diagnosis maupun jaminan aksesibilitas bagi seluruh individu.
+WarnaAjar membantu pembuat materi menambahkan penanda nonwarna pada visual edukasi berbasis warna datar. Satu visual per gambar per sesi, maksimal empat kategori informasi, tanpa login. Guru/pembuat materi adalah pengguna langsung; siswa penerima manfaat, bukan pengguna website. Output bukan alat diagnosis maupun jaminan aksesibilitas bagi seluruh individu.
 
 ## 2. Scope dan ownership
 
@@ -31,8 +31,10 @@ Bagian berikut mengikuti FR Master PRD secara langsung. FR-08 dan FR-12 dibagi: 
 
 ### FR-07 — Automatic Image Repair
 
+MVP mendukung satu visual per gambar, dengan 1–4 kategori informasi yang dipetakan berdasarkan warna; swatch teks, latar, grid dan dekorasi tidak dihitung sebagai kategori. Jika lebih dari empat kategori informasi atau terdapat beberapa visual, tetap izinkan analisis warna dan simulasi, tetapi blok repair otomatis dan jelaskan batasan. Jangan mengecualikan kategori informasi yang sebenarnya relevan hanya untuk melewati batas. Engine memvalidasi 1–4 kategori included sebelum rekomendasi/repair; bila UI menyatakan visual tidak didukung, jangan panggil engine. Satu output repair normal (warna asli + pola), bukan empat hasil repair berbeda.
+
 - Lakukan color masking/thresholding menggunakan warna yang sudah dikonfirmasi. Gunakan connected components jika benar-benar diperlukan untuk mencegah area salah sasaran.
-- Data categorical: gunakan pola berbeda, misalnya diagonal, titik, horizontal, atau crosshatch.
+- Data categorical: 1–4 kategori, gunakan jenis pola yang berbeda untuk setiap kategori (`diagonal`, `dots`, `horizontal`, `crosshatch`). Jangan menggunakan ulang jenis pola untuk kategori berbeda. Blok repair otomatis bila lebih dari empat kategori informasi.
 - Data ordinal: gunakan satu keluarga arsir dengan kerapatan meningkat sesuai urutan yang dikonfirmasi.
 - Pertahankan warna sumber, geometri, posisi, angka, dan teks; tambahkan pola sebagai layer/mask, bukan menggambar ulang seluruh visual.
 - Terapkan pola pada kategori dan legenda secara konsisten; lindungi piksel teks, garis batas dan area bukan target. Jika pemisahan tidak aman (misalnya warna teks sama dengan fill), jangan mengklaim hasil sempurna; tampilkan preview/peringatan dan izinkan koreksi pilihan warna atau batalkan.
@@ -41,9 +43,9 @@ Bagian berikut mengikuti FR Master PRD secara langsung. FR-08 dan FR-12 dibagi: 
 **Acceptance:** fixture warna datar memiliki pola yang sesuai di area target dan legenda; piksel di luar mask yang disetujui tidak berubah; dimensi sumber tetap; konfigurasi sama menghasilkan output konsisten; area terlalu kecil atau ambigu diberi peringatan.
 ### FR-08 — Custom Pattern Editor
 
-- Pengguna dapat mengganti jenis pola dan jarak/kerapatan secara sederhana.
+- Pengguna dapat mengganti jenis pola dan jarak/kerapatan secara sederhana. Untuk 1–4 kategori, guru bebas memilih dari empat pola; tidak harus menggunakan semuanya. Untuk categorical, cegah konfigurasi final dengan jenis pola duplikat; ordinal menggunakan satu keluarga pola dan kerapatan sesuai urutan.
 - Perubahan diterapkan pada gambar dan legenda; gunakan properti pola yang sama untuk satu kategori.
-- Cegah atau beri peringatan pada penanda yang sama untuk kategori yang perlu dibedakan; pada ordinal jaga urutan kerapatan.
+- Cegah konfigurasi final dengan jenis pola sama pada kategori categorical; tampilkan warning yang dapat diperbaiki guru. Pada ordinal jaga urutan kerapatan.
 - Berikan reset ke rekomendasi awal. Tidak perlu drag-and-drop layer atau drawing editor.
 
 **Acceptance:** mengganti pola memperbarui preview tanpa mengubah gambar asli; legenda mengikuti konfigurasi; reset memulihkan konfigurasi awal; perubahan pola membatalkan hasil Uji Terbaca sebelumnya.
@@ -69,8 +71,8 @@ Gunakan `SemanticCategory`, `PatternConfig`, `PatternKind`, `RepairResult`, `Col
 ## 5. Urutan implementasi yang disarankan
 
 1. Buat fixture warna datar yang memiliki area target, legenda, teks, garis batas dan latar. Implementasikan mask berbasis swatch dengan toleransi yang dapat dikonfigurasi. Hanya kategori included yang diproses.
-2. Buat aturan rekomendasi pola kategori yang dapat dibedakan (diagonal, dots, horizontal, crosshatch); jika kategori lebih banyak dari pola yang layak, beri warning dan jangan mengklaim seluruhnya terbedakan.
-3. Buat aturan ordinal satu keluarga arsir, jarak konsisten dengan urutan yang dikonfirmasi; jangan menebak urutan dari hue. Validasi konfigurasi pola duplikat atau kerapatan tidak valid, beri warning atau cegah sesuai FR-08.
+2. Buat aturan rekomendasi pola kategori yang dapat dibedakan (diagonal, dots, horizontal, crosshatch); jika lebih dari empat kategori included, blok rekomendasi/repair otomatis; jangan mengulang pola untuk mengakali batas.
+3. Buat aturan ordinal satu keluarga arsir, jarak konsisten dengan urutan yang dikonfirmasi; jangan menebak urutan dari hue. Validasi jenis pola duplikat pada categorical dan kerapatan/urutan invalid pada ordinal; blok konfigurasi final yang tidak memenuhi aturan.
 4. Render pola dengan mask di atas salinan sumber. Konsisten untuk seluruh area kategori termasuk legenda, tetapi lindungi piksel teks, angka dan batas. Jangan memaksakan pemisahan jika warna kategori juga dipakai teks/latar dan tidak dapat dibedakan dengan aman; gunakan warning/preview dan koreksi atau batalkan.
 5. Buat re-render dari sumber asli pada setiap perubahan pola, tidak menumpuk hasil sebelumnya. Reset menggunakan rekomendasi awal. Lindungi dimensi, alpha dan piksel di luar mask.
 6. Buat export PNG dari hasil normal, tanpa UI/watermark. Uji decode hasil dan dimensi.
@@ -84,6 +86,8 @@ Gunakan `SemanticCategory`, `PatternConfig`, `PatternKind`, `RepairResult`, `Col
 - Pola tidak mengubah ΔE warna sumber; jangan melaporkan konflik warna hilang. Report hanya kategori yang mendapat penanda tambahan.
 
 ## 7. Testing dan acceptance checklist
+
+Tambahkan fixture 2 kategori dengan pilihan bebas dari empat jenis pola, 4 kategori unik, dan 5+ kategori ditolak. Uji perubahan spacing, reset, legenda sinkron, duplicate kind categorical ditolak, ordinal tetap satu keluarga dengan kerapatan meningkat.
 
 | Test | Lulus jika |
 |---|---|

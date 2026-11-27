@@ -1,0 +1,29 @@
+Berikut analisis data dari grafik **"Hasil panen kebun sekolah"**:
+
+### 1. Membaca Grafik
+Grafik batang ini menyajikan jumlah keranjang menurut kategori buah. Kategori pada sumbu X (A, B, C) ditentukan oleh warna batang sesuai legenda.
+
+| Batang | Warna | Kategori (Legenda) | Jumlah Keranjang |
+| :---: | :---: | :---: | :---: |
+| **A** | Biru | Salak | **7** |
+| **B** | Merah | Duku | **4** |
+| **C** | Hijau | Sawo | **11** |
+
+### 2. Interpretasi
+- **Panen terbanyak** adalah **Sawo** dengan 11 keranjang.
+- **Panen tersedikit** adalah **Duku** dengan 4 keranjang.
+- Total seluruh panen = 7 + 4 + 11 = **22 keranjang**.
+
+### 3. Contoh Soal & Pembahasan (SMP)
+**Soal:** Berapa selisih antara hasil panen terbanyak dan tersedikit?
+
+**Pembahasan:**
+- Panen terbanyak (Sawo) = 11
+- Panen tersedikit (Duku) = 4
+- Selisih = 11 − 4 = **7 keranjang**
+
+**Soal:** Jika 1 keranjang berisi 5 kg buah, berapa total berat panen seluruhnya?
+
+**Pembahasan:**
+- Total keranjang = 22
+- Total berat = 22 × 5 = **110 kg**

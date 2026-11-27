@@ -1,0 +1,23 @@
+{
+  "mapping": {
+    "dataType": "categorical",
+    "categories": [
+      {
+        "colorId": "c1",
+        "label": "Apel",
+        "included": true,
+        "order": null
+      },
+      {
+        "colorId": "c2",
+        "label": "Jeruk",
+        "included": true,
+        "order": null
+      }
+    ]
+  },
+  "groundTruth": {
+    "expectedStatus": 422,
+    "reason": "Hanya teks Data tidak tersedia; tidak ada kategori/legenda/angka."
+  }
+}

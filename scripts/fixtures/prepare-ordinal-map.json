@@ -1,0 +1,42 @@
+{
+  "mapping": {
+    "dataType": "ordinal",
+    "categories": [
+      {
+        "colorId": "risk_low",
+        "label": "Rendah",
+        "included": true,
+        "order": 1
+      },
+      {
+        "colorId": "risk_medium",
+        "label": "Sedang",
+        "included": true,
+        "order": 2
+      },
+      {
+        "colorId": "risk_high",
+        "label": "Tinggi",
+        "included": true,
+        "order": 3
+      },
+      {
+        "colorId": "background",
+        "label": null,
+        "included": false,
+        "order": null
+      },
+      {
+        "colorId": "text",
+        "label": null,
+        "included": false,
+        "order": null
+      }
+    ]
+  },
+  "groundTruth": {
+    "Utara": "Rendah",
+    "Tengah": "Sedang",
+    "Selatan": "Tinggi"
+  }
+}

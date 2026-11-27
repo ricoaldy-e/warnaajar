@@ -1,0 +1,1416 @@
+[
+  {
+    "number": 1,
+    "name": "sandbox-blocked",
+    "status": "network_EACCES",
+    "usage": null
+  },
+  {
+    "number": 2,
+    "name": "POC Text",
+    "status": "PASS",
+    "usage": {
+      "prompt_tokens": 15,
+      "completion_tokens": 2,
+      "total_tokens": 17
+    }
+  },
+  {
+    "number": 3,
+    "name": "POC Vision",
+    "status": "PASS",
+    "usage": {
+      "prompt_tokens": 755,
+      "completion_tokens": 103,
+      "total_tokens": 858
+    }
+  },
+  {
+    "number": 4,
+    "name": "POC JSON Object",
+    "status": "PASS",
+    "usage": {
+      "prompt_tokens": 755,
+      "completion_tokens": 103,
+      "total_tokens": 858
+    }
+  },
+  {
+    "number": 5,
+    "name": "POC JSON Schema",
+    "status": "PASS",
+    "usage": {
+      "prompt_tokens": 755,
+      "completion_tokens": 103,
+      "total_tokens": 858
+    }
+  },
+  {
+    "number": 6,
+    "name": "production",
+    "fixture": "cosmos-chart",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "requestId": "req_cos_8143fa04b4594e5e",
+    "usage": {
+      "prompt_tokens": 1638,
+      "completion_tokens": 562,
+      "total_tokens": 2200,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 4
+    },
+    "finishReason": "stop",
+    "contentLength": 2102,
+    "requestSummary": {
+      "roles": [
+        "system",
+        "user"
+      ],
+      "format": "json_schema",
+      "strict": true
+    },
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "c1",
+          "label": "Sawo",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "c2",
+          "label": "Duku",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "c3",
+          "label": "Salak",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "crosshatch"
+        },
+        {
+          "colorId": "bg",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "text",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "grid",
+          "label": null,
+          "included": false,
+          "order": null
+        }
+      ],
+      "explanation": "Gambar adalah diagram batang hasil panen kebun sekolah dengan sumbu Y menunjukkan jumlah keranjang. Legenda menghubungkan tiga warna batang dengan kategori buah: hijau (c1) untuk Sawo, merah (c2) untuk Duku, dan biru (c3) untuk Salak. Ketiga kategori ini tidak memiliki urutan tingkatan intrinsik, sehingga dataType categorical dan order dibiarkan null. Warna latar, teks, dan garis grid hanya berfungsi sebagai pendukung tampilan, bukan pembawa kategori, jadi tidak disertakan. Analysis.conflicts kosong, sehingga tidak ada potensi hambatan warna yang terdeteksi dari Modul 1; ini bukan jaminan bahwa gambar sudah terbaca oleh semua pengguna. Pola berbeda (diagonal, dots, crosshatch) diusulkan agar kategori tetap dapat dibedakan tanpa bergantung pada warna. Hasil ini masih usulan AI dan perlu dikonfirmasi guru sebelum repair.",
+      "warnings": [
+        "Label kategori diambil dari legenda warna; mohon guru memverifikasi kesesuaian label Sawo, Duku, dan Salak serta batang A, B, C.",
+        "Kategori bersifat kategoris tanpa urutan; order dibiarkan null dan tidak boleh dipaksakan menjadi ordinal.",
+        "Tidak ada konflik warna pada analysis.conflicts, sehingga tidak ada masalah warna yang dilaporkan dari Modul 1. Simulasi CVD bersifat pendekatan dan pola tidak menjamin keterbacaan penuh.",
+        "Swatch latar, teks, dan grid dipertahankan di metadata tetapi included=false karena bukan pembawa informasi kategori.",
+        "Hasil ini usulan AI; guru wajib mengonfirmasi label, included, jenis data, dan urutan sebelum repair."
+      ]
+    },
+    "latencyMs": 3784
+  },
+  {
+    "number": 7,
+    "name": "system-only",
+    "fixture": "cosmos-chart",
+    "status": "invalid_json",
+    "httpStatus": 200,
+    "requestId": "req_cos_b734295c7aea474d",
+    "usage": {
+      "prompt_tokens": 549,
+      "completion_tokens": 254,
+      "total_tokens": 803,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "finishReason": "stop",
+    "contentLength": 750,
+    "requestSummary": {
+      "roles": [
+        "system",
+        "user"
+      ],
+      "format": "json_schema",
+      "strict": true
+    },
+    "latencyMs": 2238
+  },
+  {
+    "number": 8,
+    "name": "production",
+    "fixture": "cosmos-chart",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "requestId": "req_cos_dc699afc7c2d4646",
+    "usage": {
+      "prompt_tokens": 1663,
+      "completion_tokens": 685,
+      "total_tokens": 2348,
+      "prompt_tokens_details": {
+        "cached_tokens": 896
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 4
+    },
+    "finishReason": "stop",
+    "contentLength": 2510,
+    "requestSummary": {
+      "roles": [
+        "system",
+        "user"
+      ],
+      "format": "json_schema",
+      "strict": true
+    },
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "probe_c1_72",
+          "label": "Sawo",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "probe_c2_72",
+          "label": "Duku",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "probe_c3_72",
+          "label": "Salak",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "horizontal"
+        },
+        {
+          "colorId": "probe_bg_72",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "probe_text_72",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "probe_grid_72",
+          "label": null,
+          "included": false,
+          "order": null
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang 'Hasil panen kebun sekolah' dengan sumbu tegak berlabel 'Keranjang'. Tiga batang berwarna mewakili tiga kategori buah yang dijelaskan pada legenda: batang biru adalah Salak (batang A, nilai 7), batang merah adalah Duku (batang B, nilai 4), dan batang hijau adalah Sawo (batang C, nilai 11). Karena kategori buah tidak memiliki urutan tingkatan intrinsik, jenis data yang tepat adalah kategorikal sehingga semua nilai order dibiarkan kosong. Warna putih latar, teks gelap, dan garis grid abu-abu tidak membawa informasi kategori, jadi tidak disertakan. Berdasarkan analysis.conflicts yang kosong, tidak ada indikasi konflik warna yang terdeteksi pada Modul 1; namun ini bukan jaminan gambar sudah aksesibel. Pola berbeda untuk tiap kategori (diagonal, titik-titik, garis horizontal) diusulkan agar batang tetap dapat dibedakan tanpa hanya bergantung pada warna. Simulasi buta warna hanyalah pendekatan, bukan ukuran persepsi setiap individu, dan pola tidak menjamin keterbacaan penuh. Hasil ini masih usulan AI; guru perlu memeriksa kembali label kategori, status included, jenis data, dan urutan sebelum perbaikan dilakukan.",
+      "warnings": [
+        "Hasil ini adalah usulan AI, bukan hasil konfirmasi pengguna. Mohon periksa label, included, jenis data, dan urutan sebelum repair.",
+        "Legenda mengaitkan warna dengan kategori buah, tetapi sumbu horizontal hanya berlabel A, B, C; pastikan kaitan batang dengan kategori sesuai maksud gambar.",
+        "Nilai 7, 4, dan 11 hanya tercantum pada label batang (bar biru, merah, hijau) dan tidak dijadikan dasar urutan kategori.",
+        "Tidak ada konflik warna pada analysis.conflicts, sehingga tidak ada masalah warna yang dilaporkan; namun gambar tidak otomatis dapat diklaim aksesibel.",
+        "Simulasi CVD merupakan pendekatan, dan penggunaan pola berbeda tidak menjamin keterbacaan bagi semua pengguna."
+      ]
+    },
+    "latencyMs": 4595
+  },
+  {
+    "number": 9,
+    "name": "joined-text",
+    "fixture": "cosmos-chart",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "requestId": "req_cos_67d9e07a02644144",
+    "usage": {
+      "prompt_tokens": 1671,
+      "completion_tokens": 421,
+      "total_tokens": 2092,
+      "prompt_tokens_details": {
+        "cached_tokens": 896
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "finishReason": "stop",
+    "contentLength": 1595,
+    "requestSummary": {
+      "roles": [
+        "system",
+        "user"
+      ],
+      "format": "json_schema",
+      "strict": true
+    },
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "probe_c3_72",
+          "label": "Salak",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "probe_c2_72",
+          "label": "Duku",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "probe_c1_72",
+          "label": "Sawо",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "horizontal"
+        }
+      ],
+      "explanation": "Gambar ini adalah grafik batang hasil panen kebun sekolah dengan sumbu tegak berisi jumlah keranjang. Legenda menghubungkan tiga warna batang dengan kategori buah: batang biru (A) adalah Salak dengan nilai 7, batang merah (B) adalah Duku dengan nilai 4, dan batang hijau (C) adalah Sawo dengan nilai 11. Karena ketiga kategori buah tidak memiliki tingkatan alami, jenis datanya kategorikal dan urutan tidak ditentukan. Warna putih, teks gelap, dan garis grid hanya berfungsi sebagai latar, tulisan, dan garis bantu, sehingga tidak dimasukkan sebagai pembawa kategori. Pada data konflik warna tidak ditemukan potensi hambatan warna, sehingga tidak ada masalah warna yang dapat dilaporkan dari analisis tersebut; namun simulasi buta warna tetap merupakan pendekatan, dan saran pola hanya untuk membantu membedakan kategori, bukan jaminan keterbacaan.",
+      "warnings": [
+        "Label kategori diturunkan dari legenda warna; mohon periksa kembali kesesuaian label sebelum perbaikan.",
+        "Jenis data kategorikal dipilih karena kategori buah tidak berurutan; urutan sengaja dibiarkan kosong.",
+        "Hasil ini merupakan usulan AI dan bukan konfirmasi pengguna; pengguna perlu memverifikasi label, included, jenis data, dan urutan sebelum repair."
+      ]
+    },
+    "latencyMs": 3260
+  },
+  {
+    "number": 10,
+    "name": "direct-http-system-only",
+    "fixture": "cosmos-chart",
+    "status": "invalid_json",
+    "httpStatus": 200,
+    "requestId": "req_cos_9edba2de196d4f1f",
+    "usage": {
+      "prompt_tokens": 549,
+      "completion_tokens": 445,
+      "total_tokens": 994,
+      "prompt_tokens_details": {
+        "cached_tokens": 384
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "finishReason": "stop",
+    "contentLength": 1379,
+    "requestSummary": {
+      "roles": [
+        "system",
+        "user"
+      ],
+      "format": "json_schema",
+      "strict": true
+    },
+    "latencyMs": 3092
+  },
+  {
+    "number": 11,
+    "name": "endpoint",
+    "fixture": "cosmos-chart",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "c3",
+          "label": "Salak",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "c2",
+          "label": "Duku",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "c1",
+          "label": "Sawu",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "horizontal"
+        },
+        {
+          "colorId": "bg",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "text",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "grid",
+          "label": null,
+          "included": false,
+          "order": null
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang hasil panen kebun sekolah dengan sumbu vertikal jumlah keranjang dan tiga batang berlabel A, B, dan C. Legenda menghubungkan warna batang dengan kategori: hijau (c1) adalah Sawu, merah (c2) adalah Duku, dan biru (c3) adalah Salak. Karena kategori buah seperti ini tidak memiliki tingkatan intrinsik, jenis data diperlakukan sebagai kategorikal sehingga seluruh nilai urutan dibiarkan kosong. Warna latar, teks, dan garis grid tidak membawa informasi kategori, jadi tidak disertakan dalam pemetaan. Tidak ada catatan konflik warna dari analisis Modul 1, sehingga tidak ada potensi hambatan warna yang dapat dilaporkan; ini bukan jaminan bahwa gambar sudah aksesibel. Pola yang disarankan hanya usulan awal agar tiap kategori mudah dibedakan, dan hasil akhir tetap perlu dikonfirmasi guru.",
+      "warnings": [
+        "Hasil ini usulan AI; guru perlu memeriksa dan mengonfirmasi label, kategori yang disertakan, jenis data, dan urutan sebelum perbaikan dilakukan.",
+        "Label batang A, B, dan C dibaca dari legenda warna, bukan dari tulisan pada batang; pastikan pemetaan warna ke buah sudah sesuai.",
+        "Tidak ada konflik warna pada data analisis, tetapi ini tidak menjamin gambar sudah terbaca oleh semua pengguna; simulasi buta warna hanyalah pendekatan, bukan kepastian persepsi tiap individu."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1638,
+      "completion_tokens": 519,
+      "total_tokens": 2157,
+      "prompt_tokens_details": {
+        "cached_tokens": 1408
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_10cceca12b184db2",
+    "finishReason": "stop",
+    "latencyMs": 4127
+  },
+  {
+    "number": 12,
+    "name": "endpoint",
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "background_72",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "text_72",
+          "label": null,
+          "included": false,
+          "order": null
+        }
+      ],
+      "explanation": "Gambar ini adalah grafik batang dengan legenda yang jelas: warna hijau mewakili Apel dan warna merah mewakili Jeruk. Karena Apel dan Jeruk adalah jenis buah tanpa tingkatan intrinsik, jenis datanya kategorikal sehingga urutan tidak diperlukan (order null). Warna putih adalah latar dan warna gelap adalah teks, sehingga keduanya tidak termasuk pembawa informasi kategori. Modul 1 tidak melaporkan konflik warna, jadi tidak ada hambatan kontras yang teridentifikasi pada gambar ini; hasil simulasi CVD tetap merupakan pendekatan, bukan jaminan keterbacaan bagi setiap pengguna. Pola berbeda (diagonal dan dots) disarankan agar kedua kategori mudah dibedakan tanpa mengandalkan warna saja. Hasil ini masih usulan AI dan perlu dikonfirmasi guru sebelum repair.",
+      "warnings": [
+        "Hasil ini adalah usulan AI; mohon periksa dan konfirmasi label, included, jenis data, dan urutan sebelum proses repair.",
+        "Tidak ada konflik warna pada analysis.conflicts, sehingga tidak ada masalah kontras yang dapat disimpulkan; ini juga bukan jaminan bahwa gambar pasti aksesibel.",
+        "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi; gambar ini berisi satu visual dengan dua kategori sehingga masih dalam batas tersebut."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1870,
+      "completion_tokens": 430,
+      "total_tokens": 2300,
+      "prompt_tokens_details": {
+        "cached_tokens": 640
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 4
+    },
+    "requestId": "req_cos_8bd4a60a7570447c",
+    "finishReason": "stop",
+    "latencyMs": 3339,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 13,
+    "name": "endpoint",
+    "fixture": "semantic-four",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "swatch_3_72",
+          "label": "Melon",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "horizontal"
+        },
+        {
+          "colorId": "swatch_4_72",
+          "label": "Anggur",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "crosshatch"
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang berjudul \"Hasil panen kebun sekolah\" dengan legenda yang menghubungkan empat warna batang ke empat jenis buah: hijau untuk Apel, merah untuk Jeruk, biru untuk Melon, dan kuning untuk Anggur. Sumbu horizontal menampilkan huruf A, B, C, dan D, tetapi huruf tersebut tidak menjelaskan kategori secara langsung; maknanya bersumber dari legenda. Karena Apel, Jeruk, Melon, dan Anggur merupakan jenis buah tanpa tingkatan intrinsik, data diklasifikasikan sebagai kategorikal dan seluruh kategori diberi urutan kosong. Tidak ada konflik warna pada data analisis, sehingga tidak ada hambatan warna spesifik yang dapat dilaporkan; hasil simulasi CVD bukan jaminan aksesibilitas. Pola berbeda per kategori diusulkan sebagai pembeda tambahan, bukan sebagai jaminan keterbacaan.",
+      "warnings": [
+        "Hasil ini adalah usulan AI, bukan konfirmasi pengguna. Mohon periksa kembali label legenda, nilai included, jenis data, dan urutan sebelum dilakukan perbaikan.",
+        "Huruf A, B, C, dan D pada sumbu horizontal tidak diberi penjelasan kategori; pastikan pemetaan didasarkan pada legenda warna, bukan pada urutan huruf.",
+        "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi; gambar ini berisi satu visual dengan empat kategori sehingga masih sesuai batas.",
+        "Simulasi buta warna bersifat pendekatan; pola yang disarankan tidak menjamin keterbacaan bagi setiap pengguna."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1907,
+      "completion_tokens": 506,
+      "total_tokens": 2413,
+      "prompt_tokens_details": {
+        "cached_tokens": 1024
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 4
+    },
+    "requestId": "req_cos_2c90656ad98c4e58",
+    "finishReason": "stop",
+    "latencyMs": 3164,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 14,
+    "name": "endpoint",
+    "fixture": "semantic-five",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "swatch_3_72",
+          "label": "Melon",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "horizontal"
+        },
+        {
+          "colorId": "swatch_4_72",
+          "label": "Anggur",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "crosshatch"
+        },
+        {
+          "colorId": "swatch_5_72",
+          "label": "Mangga",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang 'Hasil panen kebun sekolah' dengan legenda berisi lima kategori buah: Apel, Jeruk, Melon, Anggur, dan Mangga. Setiap warna batang dapat dipetakan langsung ke satu label legenda, sehingga kelima swatch warna informasi dilaporkan sebagai kategori. Karena kategori buah tidak memiliki tingkatan intrinsik, jenis data dianggap kategorikal dan semua urutan dibiarkan kosong. Analisis konflik warna tidak melaporkan masalah, jadi tidak ada hambatan warna yang diklaim; simulasi buta warna hanyalah pendekatan dan tidak menjamin keterbacaan bagi semua orang. Pola berbeda hanya diusulkan untuk membantu membedakan kategori, dan hasil ini masih perlu diperiksa serta dikonfirmasi pengguna sebelum repair.",
+      "warnings": [
+        "Jumlah kategori informasi ada lima, sedangkan repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori; kategori kelima (Mangga) tetap dilaporkan dan perlu penanganan manual.",
+        "Hasil ini berupa usulan AI: mohon konfirmasi label, included, jenis data, dan urutan sebelum repair dilakukan.",
+        "Tidak ada konflik warna pada data analisis, sehingga gambar tidak otomatis dinyatakan aksesibel; simulasi buta warna tidak mewakili persepsi setiap individu.",
+        "Perbaikan otomatis MVP mendukung satu visual dengan 1–4 kategori informasi. Hasil analisis tidak dipotong; perbaikan otomatis untuk visual ini tidak didukung."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1926,
+      "completion_tokens": 483,
+      "total_tokens": 2409,
+      "prompt_tokens_details": {
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 4
+    },
+    "requestId": "req_cos_fd4bd3de29314b4f",
+    "finishReason": "stop",
+    "latencyMs": 3557,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true,
+      "scopeWarning": true
+    }
+  },
+  {
+    "number": 15,
+    "name": "endpoint",
+    "fixture": "semantic-ordinal",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "ordinal",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Rendah",
+          "included": true,
+          "order": 1,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Sedang",
+          "included": true,
+          "order": 2,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_3_72",
+          "label": "Tinggi",
+          "included": true,
+          "order": 3,
+          "suggestedPattern": "diagonal"
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang bertingkat mengenai tingkat risiko banjir dengan legenda Rendah, Sedang, dan Tinggi. Karena ketiga tingkat ini memiliki urutan yang jelas dari rendah ke tinggi, data diklasifikasikan sebagai ordinal dan tiap warna dipetakan ke kategorinya. Saran pola menggunakan keluarga pola yang sama (diagonal) agar urutan tetap konsisten saat warna diganti atau dibantu oleh pola. Berdasarkan analysis.conflicts yang kosong, tidak ada indikasi konflik warna yang perlu dibahas, namun ini bukan jaminan bahwa gambar sudah optimal untuk semua pembaca.",
+      "warnings": [
+        "Hasil ini merupakan usulan AI; pengguna perlu memeriksa kembali label, pemetaan warna, jenis data, dan urutan sebelum proses repair.",
+        "Gambar memuat tepat satu visual, sehingga tidak ada peringatan batas jumlah visual.",
+        "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi; jumlah kategori di sini masih dalam batas tersebut.",
+        "Simulasi buta warna bersifat pendekatan dan tidak menjamin keterbacaan bagi setiap pembaca; pola membantu tetapi bukan jaminan mutlak."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1888,
+      "completion_tokens": 371,
+      "total_tokens": 2259,
+      "prompt_tokens_details": {
+        "cached_tokens": 1024
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_16208aa57465442b",
+    "finishReason": "stop",
+    "latencyMs": 3158,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 16,
+    "name": "endpoint",
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "background_72",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "text_72",
+          "label": null,
+          "included": false,
+          "order": null
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang hasil panen kebun sekolah dengan dua batang berwarna. Legenda menunjukkan warna hijau tua untuk Apel dan merah untuk Jeruk, sehingga kedua kategori tersebut dapat dipetakan langsung ke colorId masing-masing. Karena Apel dan Jeruk adalah jenis buah tanpa tingkatan intrinsik, jenis datanya categorical dan urutan tidak perlu diisi. Warna putih dan warna teks gelap hanya berfungsi sebagai latar dan tulisan, jadi tidak dimasukkan sebagai kategori informasi. Pada analysis.conflicts tidak tercatat konflik warna, sehingga tidak ada potensi hambatan pembedaan warna yang dapat disimpulkan dari data tersebut; namun ini bukan jaminan gambar sudah aksesibel. Pola diagonal dan titik diusulkan agar kedua batang tetap dapat dibedakan tanpa bergantung pada warna. Hasil ini masih usulan AI; guru perlu memeriksa label, included, jenis data, dan urutan sebelum repair.",
+      "warnings": [
+        "Label Apel dan Jeruk dipetakan dari legenda gambar; mohon konfirmasi kebenarannya sebelum repair.",
+        "Sumbu kategori A dan B tidak dijelaskan pada gambar; pastikan A dan B memang mewakili Apel dan Jeruk.",
+        "Tidak ada konflik warna pada data analysis; tetap lakukan pemeriksaan akhir karena simulasi CVD hanya pendekatan, bukan jaminan keterbacaan.",
+        "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi; gambar ini berisi satu visual dengan dua kategori, sehingga sesuai batas tersebut."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1870,
+      "completion_tokens": 474,
+      "total_tokens": 2344,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 4
+    },
+    "requestId": "req_cos_c46722e1c806442c",
+    "finishReason": "stop",
+    "latencyMs": 3169,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 17,
+    "name": "endpoint",
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "background_72",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "text_72",
+          "label": null,
+          "included": false,
+          "order": null
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang berjudul 'Hasil panen kebun sekolah'. Legenda menunjukkan dua kategori buah: warna hijau (swatch_1_72) untuk 'Apel' dan warna merah (swatch_2_72) untuk 'Jeruk'. Kedua kategori tidak memiliki tingkatan intrinsik, sehingga jenis datanya kategorikal dan urutan tidak ditentukan. Warna latar putih (background_72) dan warna teks gelap (text_72) tidak membawa informasi kategori, jadi tidak disertakan. Karena ini data kategorikal, disarankan pola berbeda antar kategori (misalnya diagonal dan titik) agar mudah dibedakan, terutama bagi siswa dengan gangguan penglihatan warna. Analisis konflik warna pada Modul 1 tidak menemukan benturan, namun ini tidak menjamin gambar sepenuhnya aksesibel.",
+      "warnings": [
+        "Hasil ini adalah usulan AI; mohon periksa dan konfirmasi label, kategori yang disertakan, jenis data, dan urutan sebelum perbaikan dilakukan.",
+        "Label sumbu kategori 'A' dan 'B' pada gambar tidak sama dengan label legenda ('Apel', 'Jeruk'); perlu dipastikan pemetaan batang ke legenda dilakukan dengan benar.",
+        "Tidak ada konflik warna yang dilaporkan, sehingga tidak ada potensi hambatan warna yang dapat disimpulkan dari data konflik; simulasi CVD hanya pendekatan dan tidak menjamin keterbacaan bagi semua orang."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1870,
+      "completion_tokens": 457,
+      "total_tokens": 2327,
+      "prompt_tokens_details": {
+        "cached_tokens": 1664
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_fa7a003d3a7d4b9e",
+    "finishReason": "stop",
+    "latencyMs": 3302,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 18,
+    "name": "endpoint",
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "background_72",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "text_72",
+          "label": null,
+          "included": false,
+          "order": null
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang sintetis berjudul \"Hasil panen kebun sekolah\" dengan legenda yang jelas: kotak hijau berarti Apel dan kotak merah berarti Jeruk. Kedua kategori ini tidak memiliki tingkatan intrinsik, sehingga diperlakukan sebagai data kategorikal dan seluruh order dibiarkan null. Warna hijau dan merah adalah warna pembawa informasi, sedangkan putih dipakai sebagai latar dan biru gelap dipakai untuk teks/garis, sehingga keduanya tidak dimasukkan sebagai kategori. Karena kategori hanya dua, pola berbeda seperti diagonal dan titik dapat membantu membedakannya selain warna. Analisis Modul 1 tidak melaporkan konflik warna, jadi tidak ada hambatan warna spesifik yang dapat disimpulkan dari data tersebut; hasil ini belum tentu menjamin aksesibilitas dan tetap perlu ditinjau.",
+      "warnings": [
+        "Hasil ini merupakan usulan AI; pengguna perlu memeriksa dan mengonfirmasi label, included, jenis data, serta urutan sebelum repair.",
+        "Simulasi atau pertimbangan CVD hanyalah pendekatan, bukan jaminan keterbacaan bagi setiap penyandang buta warna.",
+        "Label sumbu A dan B tidak dijelaskan di legenda, sehingga maknanya belum dipastikan dan tidak dipetakan ke kategori."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1870,
+      "completion_tokens": 429,
+      "total_tokens": 2299,
+      "prompt_tokens_details": {
+        "cached_tokens": 1664
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_011d0969eeeb4159",
+    "finishReason": "stop",
+    "latencyMs": 3290,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 19,
+    "name": "system-only-no-context",
+    "fixture": "cosmos-chart",
+    "status": "invalid_json",
+    "httpStatus": 200,
+    "requestId": "req_cos_d550456a98984897",
+    "usage": {
+      "prompt_tokens": 534,
+      "completion_tokens": 310,
+      "total_tokens": 844,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "finishReason": "stop",
+    "contentLength": 1071,
+    "requestSummary": {
+      "roles": [
+        "system",
+        "user"
+      ],
+      "format": "json_schema",
+      "strict": true
+    },
+    "latencyMs": 2643
+  },
+  {
+    "number": 20,
+    "name": "system-text-control",
+    "fixture": "cosmos-chart",
+    "status": "invalid_json",
+    "httpStatus": 200,
+    "requestId": "req_cos_aa060f2e10f0446d",
+    "usage": {
+      "prompt_tokens": 122,
+      "completion_tokens": 339,
+      "total_tokens": 461,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "finishReason": "stop",
+    "contentLength": 1303,
+    "requestSummary": {
+      "roles": [
+        "system",
+        "user"
+      ],
+      "format": "json_schema",
+      "strict": true
+    },
+    "latencyMs": 2614
+  },
+  {
+    "number": 21,
+    "name": "limit-completion",
+    "fixture": "cosmos-chart",
+    "status": "invalid_json",
+    "httpStatus": 200,
+    "requestId": "req_cos_aba54a47aa784040",
+    "usage": {
+      "prompt_tokens": 22,
+      "completion_tokens": 298,
+      "total_tokens": 320,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "finishReason": "stop",
+    "contentLength": 390,
+    "requestSummary": {
+      "roles": [
+        "user"
+      ]
+    },
+    "latencyMs": 1671
+  },
+  {
+    "number": 22,
+    "name": "limit-tokens",
+    "fixture": "cosmos-chart",
+    "status": "invalid_json",
+    "httpStatus": 200,
+    "requestId": "req_cos_9750b293f023434b",
+    "usage": {
+      "prompt_tokens": 22,
+      "completion_tokens": 16,
+      "total_tokens": 38,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 1
+    },
+    "finishReason": "length",
+    "contentLength": 16,
+    "requestSummary": {
+      "roles": [
+        "user"
+      ]
+    },
+    "latencyMs": 1120
+  },
+  {
+    "number": 23,
+    "name": "endpoint",
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang 'Hasil panen kebun sekolah' dengan legenda yang jelas: kotak hijau berlabel Apel dan kotak merah berlabel Jeruk. Keduanya adalah kategori buah tanpa tingkatan intrinsik, sehingga jenis datanya kategorikal dan tidak ada urutan kategori. Warna latar putih dan warna teks tidak membawa makna kategori, jadi tidak dimasukkan. Karena conflicts pada analisis warna kosong, tidak ada indikasi hambatan warna yang terdeteksi pada uji ini; namun ini bukan jaminan gambar pasti mudah dibaca semua orang, dan simulasi CVD hanyalah pendekatan. Pola berbeda (diagonal untuk Apel, titik untuk Jeruk) diusulkan agar batang tetap dapat dibedakan tanpa mengandalkan warna saja. Hasil ini masih usulan AI: mohon periksa dan konfirmasi label, kategori yang dimasukkan, jenis data, serta urutan sebelum perbaikan dilakukan.",
+      "warnings": [
+        "Legenda hanya memetakan warna ke nama kategori, sedangkan batang diberi label A dan B; mohon pastikan hubungan batang dengan Apel/Jeruk sesuai maksud gambar.",
+        "Hasil ini usulan AI dan belum dikonfirmasi pengguna; periksa kembali label, included, jenis data, dan urutan sebelum repair.",
+        "Tidak ada konflik warna yang dilaporkan Modul 1, tetapi gambar tidak otomatis dapat diklaim aksesibel bagi semua pembaca; simulasi CVD bersifat pendekatan.",
+        "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi; gambar ini berisi satu visual dengan dua kategori."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1870,
+      "completion_tokens": 447,
+      "total_tokens": 2317,
+      "prompt_tokens_details": {
+        "cached_tokens": 1664
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_608906407aa643ee",
+    "finishReason": "stop",
+    "latencyMs": 3714,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 24,
+    "name": "endpoint",
+    "fixture": "semantic-four",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "swatch_3_72",
+          "label": "Melon",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "horizontal"
+        },
+        {
+          "colorId": "swatch_4_72",
+          "label": "Anggur",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "crosshatch"
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang 'Hasil panen kebun sekolah' dengan empat batang berwarna dan legenda di sebelah kanan. Legenda memetakan warna hijau ke Apel, merah ke Jeruk, biru ke Melon, dan kuning ke Anggur. Karena kategori buah tidak memiliki tingkatan intrinsik, jenis datanya kategorikal dan semua order dibiarkan null. Setiap kategori informatif disertakan dan diberi saran pola berbeda agar batang mudah dibedakan tanpa hanya mengandalkan warna. Analisis warna pada Modul 1 tidak mencatat konflik warna, sehingga tidak ada potensi hambatan kontras yang dapat disebutkan dari data tersebut; ini tidak menjamin gambar sudah sepenuhnya aksesibel.",
+      "warnings": [
+        "Hasil ini adalah usulan AI; guru perlu memeriksa dan mengonfirmasi label, included, jenis data, dan urutan sebelum repair.",
+        "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi; gambar ini memiliki empat kategori sehingga masih dalam batas, tetapi perlu dipastikan tidak ada visual lain yang ikut diproses.",
+        "Simulasi buta warna hanya pendekatan; penggunaan pola tidak menjamin keterbacaan bagi setiap pengguna."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1907,
+      "completion_tokens": 424,
+      "total_tokens": 2331,
+      "prompt_tokens_details": {
+        "cached_tokens": 1024
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_bb774b6c2cd74a6e",
+    "finishReason": "stop",
+    "latencyMs": 2732,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 25,
+    "name": "endpoint",
+    "fixture": "semantic-five",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "swatch_3_72",
+          "label": "Melon",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "horizontal"
+        },
+        {
+          "colorId": "swatch_4_72",
+          "label": "Anggur",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "crosshatch"
+        },
+        {
+          "colorId": "swatch_5_72",
+          "label": "Mangga",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        }
+      ],
+      "explanation": "Gambar adalah diagram batang berjudul \"Hasil panen kebun sekolah\" dengan legenda berisi lima kategori buah: Apel, Jeruk, Melon, Anggur, dan Mangga. Setiap warna pada legenda tampaknya mewakili satu batang, sehingga kategorinya bersifat kategoris (tanpa tingkatan intrinsik) dan semua order dibiarkan null. Karena kategori lebih dari empat, disarankan memberi pola pembeda yang berbeda-beda antarkategori. Analisis konflik warna (Modul 1) tidak melaporkan konflik, sehingga tidak ada potensi hambatan warna yang dapat disebutkan dari data tersebut; ini bukan jaminan bahwa gambar sudah sepenuhnya aksesibel, dan hasil simulasi CVD hanya pendekatan.",
+      "warnings": [
+        "Terdapat lima kategori informasi, sedangkan repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori; pengguna perlu meninjau dan menyesuaikan sebelum repair.",
+        "Pastikan gambar hanya memuat satu visual utama sebelum repair; ada teks catatan di bawah yang bukan bagian data, namun jika ada visual lain perlu dipisahkan.",
+        "Label kategori sudah dibaca dari legenda, tetapi pengguna wajib mengonfirmasi label, included, jenis data, dan urutan sebelum repair; hasil ini masih usulan AI.",
+        "Perbaikan otomatis MVP mendukung satu visual dengan 1–4 kategori informasi. Hasil analisis tidak dipotong; perbaikan otomatis untuk visual ini tidak didukung."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1926,
+      "completion_tokens": 471,
+      "total_tokens": 2397,
+      "prompt_tokens_details": {
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_3dd47c0272e84020",
+    "finishReason": "stop",
+    "latencyMs": 3473,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true,
+      "scopeWarning": true
+    }
+  },
+  {
+    "number": 26,
+    "name": "endpoint",
+    "fixture": "semantic-ordinal",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "ordinal",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Rendah",
+          "included": true,
+          "order": 1,
+          "suggestedPattern": "horizontal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Sedang",
+          "included": true,
+          "order": 2,
+          "suggestedPattern": "horizontal"
+        },
+        {
+          "colorId": "swatch_3_72",
+          "label": "Tinggi",
+          "included": true,
+          "order": 3,
+          "suggestedPattern": "horizontal"
+        }
+      ],
+      "explanation": "Gambar adalah diagram batang dengan legenda yang jelas: hijau untuk Rendah, merah untuk Sedang, dan biru untuk Tinggi. Kategori ini berjenjang dari rendah ke tinggi, sehingga sesuai diperlakukan sebagai data ordinal. Sumbu horizontal berlabel A, B, dan C tampaknya menjadi nama lokasi atau kelompok, bukan kategori informasi warna; fokus pemetaan warna ada pada tiga tingkat risiko. Karena urutan tingkat risiko sudah jelas dari legenda (Rendah - Sedang - Tinggi), ordem 1-3 diberikan. Pola disarankan memakai satu keluarga pola yang konsisten, yaitu garis horizontal, agar tetap dapat dibedakan saat warna sulit dipersepsikan. Tidak ada konflik warna pada data analisis, jadi tidak ada hambatan warna yang teridentifikasi dari Modul 1; hasil ini tetap usulan AI dan perlu diperiksa guru.",
+      "warnings": [
+        "Ada lebih dari satu elemen bernama tingkat risiko, karena itu pengguna perlu memastikan bahwa kategori Rendah, Sedang, dan Tinggi adalah satu-satunya kategori warna yang relevan.",
+        "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi. Jika ada beberapa visual dalam sumber yang sama, pisahkan per visual sebelum repair.",
+        "Verifikasi label legenda, included, jenis data ordinal, dan urutan sebelum repair; hasil ini belum dikonfirmasi pengguna.",
+        "Simulasi buta warna adalah pendekatan, bukan jaminan bahwa setiap orang akan mengalami persepsi yang sama; pola membantu pembedaan tetapi tetap perlu ditinjau."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1888,
+      "completion_tokens": 456,
+      "total_tokens": 2344,
+      "prompt_tokens_details": {
+        "cached_tokens": 1024
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_5524e6b5b638425c",
+    "finishReason": "stop",
+    "latencyMs": 3912,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 27,
+    "name": "endpoint",
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        },
+        {
+          "colorId": "background_72",
+          "label": null,
+          "included": false,
+          "order": null
+        },
+        {
+          "colorId": "text_72",
+          "label": null,
+          "included": false,
+          "order": null
+        }
+      ],
+      "explanation": "Gambar ini adalah diagram batang 'Hasil panen kebun sekolah' dengan legenda yang terbaca jelas: warna hijau (swatch_1_72) mewakili Apel dan warna merah (swatch_2_72) mewakili Jeruk. Kedua kategori ini bersifat kategoris tanpa tingkatan intrinsik, sehingga order dibiarkan kosong. Warna background dan teks hanya berfungsi sebagai latar dan tulisan, jadi tidak dijadikan kategori. Pada analysis.conflicts tidak ditemukan konflik warna, sehingga tidak ada hambatan warna yang dapat dilaporkan; hasil simulasi CVD tetap hanya pendekatan dan bukan jaminan keterbacaan. Pola berbeda (diagonal dan dots) disarankan agar kedua batang mudah dibedakan, namun penentuan akhir tetap tugas engine repair. Karena itu, hasil ini masih berupa usulan AI dan perlu dikonfirmasi guru sebelum perbaikan dilakukan.",
+      "warnings": [
+        "Hasil ini adalah usulan AI; guru perlu memeriksa dan mengonfirmasi label, kategori yang disertakan, jenis data, dan urutan sebelum repair.",
+        "Legenda hanya memetakan warna ke Apel dan Jeruk; sumbu kategori pada grafik diberi huruf A dan B, jadi pastikan dulu apakah A memang Apel dan B memang Jeruk.",
+        "Repair otomatis MVP hanya mendukung satu visual dengan 1–4 kategori informasi; saat ini ada 2 kategori informasi yang relevan."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1870,
+      "completion_tokens": 458,
+      "total_tokens": 2328,
+      "prompt_tokens_details": {
+        "cached_tokens": 1664
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_cf2b2e9b0c064318",
+    "finishReason": "stop",
+    "latencyMs": 2876,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  },
+  {
+    "number": 28,
+    "name": "endpoint",
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "semantic": {
+      "visualType": "bar",
+      "dataType": "categorical",
+      "categories": [
+        {
+          "colorId": "swatch_1_72",
+          "label": "Apel",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "diagonal"
+        },
+        {
+          "colorId": "swatch_2_72",
+          "label": "Jeruk",
+          "included": true,
+          "order": null,
+          "suggestedPattern": "dots"
+        }
+      ],
+      "explanation": "Gambar adalah diagram batang 'Hasil panen kebun sekolah' dengan legenda yang jelas: kotak hijau berarti Apel dan kotak merah berarti Jeruk. Karena Apel dan Jeruk adalah jenis buah tanpa tingkatan intrinsik, data digolongkan kategorikal sehingga seluruh nilai order dibiarkan null. Warna latar putih (background_72) dan warna teks gelap (text_72) hanya berfungsi sebagai latar dan tulisan, bukan pembawa kategori, sehingga tidak dimasukkan. Pada analysis.conflicts tidak tercatat konflik warna, jadi tidak ada potensi hambatan warna yang dapat disimpulkan dari data tersebut; ini bukan jaminan bahwa gambar sudah aksesibel. Pola diagonal dan titik diusulkan hanya sebagai pembeda kategori, dan hasil akhirnya tetap perlu dikonfirmasi pengguna sebelum repair.",
+      "warnings": [
+        "Hasil ini adalah usulan AI; pengguna wajib memeriksa dan mengonfirmasi label, included, jenis data, dan urutan sebelum repair.",
+        "Label kategori 'Apel' dan 'Jeruk' disalin dari legenda; pastikan ejaan sudah sesuai.",
+        "Simulasi CVD merupakan pendekatan, bukan jaminan persepsi setiap penyandang buta warna, dan pola tidak menjamin keterbacaan.",
+        "Kategori A dan B pada sumbu horizontal tidak memiliki legenda langsung; makna warna mengikuti legenda Apel/Jeruk, mohon ditinjau.",
+        "Saat ini ada 2 kategori informasi, sehingga masih sesuai batas 1–4 kategori untuk repair otomatis MVP."
+      ]
+    },
+    "usage": {
+      "prompt_tokens": 1870,
+      "completion_tokens": 427,
+      "total_tokens": 2297,
+      "prompt_tokens_details": {
+        "cached_tokens": 1664
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 3
+    },
+    "requestId": "req_cos_ce341f355cdb44c4",
+    "finishReason": "stop",
+    "latencyMs": 3548,
+    "groundTruth": {
+      "visualType": true,
+      "dataType": true,
+      "count": true,
+      "labels": true,
+      "nonInformationExcluded": true,
+      "orders": true
+    }
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "analysis": {
+    "colors": [
+      {
+        "id": "swatch_1_72",
+        "hex": "#20815A"
+      },
+      {
+        "id": "swatch_2_72",
+        "hex": "#D64545"
+      },
+      {
+        "id": "swatch_3_72",
+        "hex": "#3869C5"
+      },
+      {
+        "id": "swatch_4_72",
+        "hex": "#D59B1B"
+      },
+      {
+        "id": "swatch_5_72",
+        "hex": "#8A42A8"
+      },
+      {
+        "id": "background_72",
+        "hex": "#FFFFFF"
+      },
+      {
+        "id": "text_72",
+        "hex": "#172033"
+      }
+    ],
+    "conflicts": [],
+    "threshold": 10
+  },
+  "context": {
+    "subject": "Matematika",
+    "grade": "SMP"
+  },
+  "expected": {
+    "visualType": "bar",
+    "dataType": "categorical",
+    "labels": {
+      "swatch_1_72": "Apel",
+      "swatch_2_72": "Jeruk",
+      "swatch_3_72": "Melon",
+      "swatch_4_72": "Anggur",
+      "swatch_5_72": "Mangga"
+    }
+  }
+}

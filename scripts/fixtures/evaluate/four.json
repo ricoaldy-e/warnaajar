@@ -1,0 +1,19 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Batang dengan kode A mewakili kategori buah apa?",
+      "expectedAnswer": "Apel"
+    },
+    {
+      "id": "q2",
+      "question": "Kategori buah apa yang diwakili batang dengan kode C?",
+      "expectedAnswer": "Melon"
+    },
+    {
+      "id": "q3",
+      "question": "Batang dengan kode D mewakili kategori buah apa?",
+      "expectedAnswer": "Anggur"
+    }
+  ]
+}

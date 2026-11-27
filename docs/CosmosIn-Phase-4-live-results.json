@@ -1,0 +1,441 @@
+[
+  {
+    "number": 1,
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Batang berlabel A mewakili kategori apa menurut legenda?",
+        "expectedAnswer": "Apel"
+      },
+      {
+        "id": "q2",
+        "question": "Batang berlabel B mewakili kategori apa menurut legenda?",
+        "expectedAnswer": "Jeruk"
+      },
+      {
+        "id": "q3",
+        "question": "Antara apel dan jeruk, batang kategori mana yang lebih tinggi?",
+        "expectedAnswer": "Jeruk"
+      }
+    ],
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1365,
+      "completion_tokens": 83,
+      "total_tokens": 1448,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "requestId": "req_cos_4c8852a744ae4262",
+    "finishReason": "stop",
+    "latencyMs": 3345,
+    "promptRevision": "initial",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Keys and category/legend relationship match fixture."
+    }
+  },
+  {
+    "number": 2,
+    "fixture": "semantic-four",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Batang berlabel A pada grafik mewakili kategori apa menurut legenda?",
+        "expectedAnswer": "Apel"
+      },
+      {
+        "id": "q2",
+        "question": "Batang berlabel D pada grafik mewakili kategori apa menurut legenda?",
+        "expectedAnswer": "Anggur"
+      },
+      {
+        "id": "q3",
+        "question": "Kategori manakah yang diwakili oleh batang berlabel C?",
+        "expectedAnswer": "Melon"
+      }
+    ],
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1414,
+      "completion_tokens": 89,
+      "total_tokens": 1503,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "requestId": "req_cos_fc40e57e3e4546b3",
+    "finishReason": "stop",
+    "latencyMs": 1714,
+    "promptRevision": "initial",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Keys and category/legend relationship match fixture."
+    }
+  },
+  {
+    "number": 3,
+    "fixture": "prepare-ordinal-map",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Berdasarkan legenda, wilayah mana yang memiliki tingkat risiko banjir paling tinggi?",
+        "expectedAnswer": "Selatan"
+      },
+      {
+        "id": "q2",
+        "question": "Wilayah Utara pada peta memiliki tingkat risiko banjir apa menurut legenda?",
+        "expectedAnswer": "Rendah"
+      },
+      {
+        "id": "q3",
+        "question": "Wilayah mana yang tingkat risiko banjirnya Sedang?",
+        "expectedAnswer": "Tengah"
+      }
+    ],
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1233,
+      "completion_tokens": 90,
+      "total_tokens": 1323,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "requestId": "req_cos_9f990534e4c140fa",
+    "finishReason": "stop",
+    "latencyMs": 2277,
+    "promptRevision": "initial",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Keys and category/legend relationship match fixture."
+    }
+  },
+  {
+    "number": 4,
+    "fixture": "prepare-insufficient",
+    "status": "public_error",
+    "httpStatus": 422,
+    "error": {
+      "code": "INSUFFICIENT_EVIDENCE",
+      "message": "Informasi gambar belum cukup untuk membuat pertanyaan yang valid."
+    },
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1172,
+      "completion_tokens": 12,
+      "total_tokens": 1184,
+      "prompt_tokens_details": {
+        "cached_tokens": 512
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 1
+    },
+    "requestId": "req_cos_f0e5c1006d454c18",
+    "finishReason": "stop",
+    "latencyMs": 1992,
+    "promptRevision": "initial",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Insufficient evidence is expected: no legend or category information in image."
+    }
+  },
+  {
+    "number": 5,
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Batang berlabel A pada grafik sesuai legenda mewakili kategori apa?",
+        "expectedAnswer": "Apel"
+      },
+      {
+        "id": "q2",
+        "question": "Batang berlabel B pada grafik sesuai legenda mewakili kategori apa?",
+        "expectedAnswer": "Jeruk"
+      },
+      {
+        "id": "q3",
+        "question": "Di antara batang A dan B, batang manakah yang lebih tinggi?",
+        "expectedAnswer": "B"
+      }
+    ],
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1365,
+      "completion_tokens": 88,
+      "total_tokens": 1453,
+      "prompt_tokens_details": {
+        "cached_tokens": 1152
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 1
+    },
+    "requestId": "req_cos_c60e88456132471c",
+    "finishReason": "stop",
+    "latencyMs": 2021,
+    "promptRevision": "initial",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": false,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": false,
+      "notes": "q3 only compares heights of A/B without category relation; rejected relevance acceptance and strengthened prompt."
+    }
+  },
+  {
+    "number": 6,
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Batang mana yang mewakili kategori Apel?",
+        "expectedAnswer": "A"
+      },
+      {
+        "id": "q2",
+        "question": "Kategori apa yang diwakili oleh batang B?",
+        "expectedAnswer": "Jeruk"
+      },
+      {
+        "id": "q3",
+        "question": "Batang mana yang mewakili kategori Jeruk?",
+        "expectedAnswer": "B"
+      }
+    ],
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1502,
+      "completion_tokens": 71,
+      "total_tokens": 1573,
+      "prompt_tokens_details": {
+        "cached_tokens": 128
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "requestId": "req_cos_a78417db173b41d0",
+    "finishReason": "stop",
+    "latencyMs": 1380,
+    "promptRevision": "final-category-relation",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Keys and category/legend relationship match fixture."
+    }
+  },
+  {
+    "number": 7,
+    "fixture": "semantic-four",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Batang dengan kode A mewakili kategori buah apa?",
+        "expectedAnswer": "Apel"
+      },
+      {
+        "id": "q2",
+        "question": "Kategori buah apa yang diwakili batang dengan kode C?",
+        "expectedAnswer": "Melon"
+      },
+      {
+        "id": "q3",
+        "question": "Batang dengan kode D mewakili kategori buah apa?",
+        "expectedAnswer": "Anggur"
+      }
+    ],
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1551,
+      "completion_tokens": 81,
+      "total_tokens": 1632,
+      "prompt_tokens_details": {
+        "cached_tokens": 640
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "requestId": "req_cos_012e8a6731d349c9",
+    "finishReason": "stop",
+    "latencyMs": 1467,
+    "promptRevision": "final-category-relation",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Keys and category/legend relationship match fixture."
+    }
+  },
+  {
+    "number": 8,
+    "fixture": "prepare-ordinal-map",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Berdasarkan legenda Peta tingkat risiko banjir, apa tingkat risiko banjir pada wilayah Utara?",
+        "expectedAnswer": "Rendah"
+      },
+      {
+        "id": "q2",
+        "question": "Wilayah mana yang memiliki tingkat risiko banjir Sedang?",
+        "expectedAnswer": "Tengah"
+      },
+      {
+        "id": "q3",
+        "question": "Apa tingkat risiko banjir pada wilayah Selatan?",
+        "expectedAnswer": "Tinggi"
+      }
+    ],
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1370,
+      "completion_tokens": 91,
+      "total_tokens": 1461,
+      "prompt_tokens_details": {
+        "cached_tokens": 640
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "requestId": "req_cos_fb4ead21e50b43de",
+    "finishReason": "stop",
+    "latencyMs": 1804,
+    "promptRevision": "final-category-relation",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Keys and category/legend relationship match fixture."
+    }
+  },
+  {
+    "number": 9,
+    "fixture": "prepare-insufficient",
+    "status": "public_error",
+    "httpStatus": 422,
+    "error": {
+      "code": "INSUFFICIENT_EVIDENCE",
+      "message": "Informasi gambar belum cukup untuk membuat pertanyaan yang valid."
+    },
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1309,
+      "completion_tokens": 12,
+      "total_tokens": 1321,
+      "prompt_tokens_details": {
+        "cached_tokens": 640
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 2
+    },
+    "requestId": "req_cos_8184089d858e4608",
+    "finishReason": "stop",
+    "latencyMs": 1018,
+    "promptRevision": "final-category-relation",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Insufficient evidence is expected: no legend or category information in image."
+    }
+  },
+  {
+    "number": 10,
+    "fixture": "semantic-two",
+    "status": "public_valid",
+    "httpStatus": 200,
+    "questions": [
+      {
+        "id": "q1",
+        "question": "Batang mana yang mewakili kategori Jeruk?",
+        "expectedAnswer": "B"
+      },
+      {
+        "id": "q2",
+        "question": "Kategori apa yang diwakili batang A?",
+        "expectedAnswer": "Apel"
+      }
+    ],
+    "providerCalls": 1,
+    "usage": {
+      "prompt_tokens": 1502,
+      "completion_tokens": 50,
+      "total_tokens": 1552,
+      "prompt_tokens_details": {
+        "cached_tokens": 1280
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 0
+      },
+      "cost": 1
+    },
+    "requestId": "req_cos_90ee8f31de2c49c7",
+    "finishReason": "stop",
+    "latencyMs": 1934,
+    "promptRevision": "final-category-relation",
+    "review": {
+      "method": "Agent comparison against synthetic image and ground truth; not AI grading",
+      "accepted": true,
+      "answerGroundTruthCorrect": true,
+      "categoryLegendRelevance": true,
+      "notes": "Keys and category/legend relationship match fixture."
+    }
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "question": "Batang mana yang mewakili kategori Jeruk?",
+      "expectedAnswer": "B"
+    },
+    {
+      "id": "q2",
+      "question": "Kategori apa yang diwakili batang A?",
+      "expectedAnswer": "Apel"
+    }
+  ]
+}
