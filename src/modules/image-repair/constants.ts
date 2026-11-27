@@ -4,6 +4,9 @@ import type { PatternKind } from '@/types';
 // Urutan ini juga urutan pemakaian pada data categorical.
 export const PATTERN_KINDS: readonly PatternKind[] = ['diagonal', 'dots', 'horizontal', 'crosshatch'];
 
+// Batas MVP v1.1 untuk categorical maupun ordinal.
+export const MAX_INCLUDED_CATEGORIES = 4;
+
 export const MIN_SPACING_PX = 4;
 export const MAX_SPACING_PX = 32;
 

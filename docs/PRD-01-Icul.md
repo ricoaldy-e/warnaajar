@@ -1,7 +1,7 @@
 # WarnaAjar — PRD Modul 1: Image Processing & Color Analysis
 
 > **Owner:** Icul  
-> **Versi:** 1.0 · turunan Master PRD v1.0 (27 November 2026)  
+> **Versi:** 1.1 · turunan Master PRD v1.1 (27 November 2026)  
 > **Tahap:** Periksa  
 > **Prioritas:** P0 · MVP  
 > **Acuan:** `PRD.md` di root repository. Target internal pengumpulan malam 29 November 2026.
@@ -10,7 +10,7 @@
 
 Menghasilkan analisis warna dan simulasi CVD yang deterministik dari satu gambar raster. Modul ini menjadi fondasi temuan konflik, koreksi warna, preview before/after, dan input Uji Terbaca. Semua perhitungan dilakukan di browser.
 
-WarnaAjar membantu pembuat materi menambahkan penanda nonwarna pada visual edukasi berbasis warna datar. Satu gambar per sesi, tanpa login. Output bukan alat diagnosis maupun jaminan aksesibilitas bagi seluruh individu.
+WarnaAjar membantu pembuat materi menambahkan penanda nonwarna pada visual edukasi berbasis warna datar. Satu visual per gambar per sesi, maksimal empat kategori informasi, tanpa login. Guru/pembuat materi adalah pengguna langsung; siswa penerima manfaat, bukan pengguna website. Output bukan alat diagnosis maupun jaminan aksesibilitas bagi seluruh individu.
 
 ## 2. Scope dan ownership
 
@@ -22,11 +22,13 @@ WarnaAjar membantu pembuat materi menambahkan penanda nonwarna pada visual eduka
 | FR-04 | Helper color picker; Nepa menangani interaksi UI. |
 | FR-10/11 | Menyediakan fungsi simulasi dan data konflik bagi Nepa. |
 
-**Tech stack:** TypeScript, Canvas API, Culori, Vitest. Tidak membutuhkan Gemini, Zustand, atau server route.
+**Tech stack:** TypeScript, Canvas API, Culori, Vitest. Tidak membutuhkan CosmosIn, Zustand, atau server route.
 
 **Area kode:** `src/modules/color-analysis/` dan unit test/fixture terkait. Perubahan shared types hanya melalui kesepakatan tim. Jangan membangun halaman upload atau komponen editor.
 
 ## 3. Functional requirements dan acceptance criteria
+
+MVP mendukung satu visual per gambar, dengan 1–4 kategori informasi yang dipetakan berdasarkan warna; swatch teks, latar, grid dan dekorasi tidak dihitung sebagai kategori. Jika lebih dari empat kategori informasi atau terdapat beberapa visual, tetap izinkan analisis warna dan simulasi, tetapi blok repair otomatis dan jelaskan batasan. Jangan mengecualikan kategori informasi yang sebenarnya relevan hanya untuk melewati batas. Batas kategori adalah tanggung jawab mapping/UI, bukan batas jumlah swatch hasil ekstraksi. Icul tetap menyediakan semua warna yang diperlukan, termasuk melalui picker. Keempat mode uji adalah `protan`, `deutan`, `tritan`, `grayscale` (grayscale adalah pengujian tambahan tanpa warna, bukan diagnosis). Guru tidak memilih jenis CVD siswa; pemilih mode hanya mengubah preview. Sistem menyiapkan empat simulasi sumber dan empat simulasi repair dari satu hasil repair normal; boleh menghasilkan secara bertahap sesuai kebutuhan memori, tanpa mengubah cakupan empat mode. Tidak perlu menambah fungsi publik baru atau menyimpan delapan salinan penuh sekaligus.
 
 Bagian berikut mengikuti FR Master PRD secara langsung. FR-01 dan FR-04 dibagi: Anda menyediakan helper, Nepa menyediakan kontrol UI. Acceptance UI merupakan tanggung jawab integrasi bersama.
 
@@ -45,7 +47,7 @@ Bagian berikut mengikuti FR Master PRD secara langsung. FR-01 dan FR-04 dibagi: 
 - Kelompokkan warna dominan dengan color quantization (Median Cut sebagai baseline). Gunakan sampel/resolusi analisis yang masuk akal; tidak perlu pipeline ML.
 - Gunakan model Machado untuk protan, deutan, dan tritan; implementasikan dengan domain warna/konversi yang sesuai referensi model. Grayscale merupakan mode tambahan, bukan simulasi klinis akromatopsia.
 - MVP memakai simulasi tingkat maksimum sebagai pendekatan konservatif; jelaskan tingkat persepsi individu dapat berbeda.
-- Pengguna dapat berpindah antara Normal / Protan / Deutan / Tritan / Hitam-putih.
+- Keempat mode uji adalah `protan`, `deutan`, `tritan`, `grayscale` (grayscale adalah pengujian tambahan tanpa warna, bukan diagnosis). Guru tidak memilih jenis CVD siswa; pemilih mode hanya mengubah preview. Sistem menyiapkan empat simulasi sumber dan empat simulasi repair dari satu hasil repair normal; boleh menghasilkan secara bertahap sesuai kebutuhan memori, tanpa mengubah cakupan empat mode. Pengguna dapat berpindah antara Normal / Protan / Deutan / Tritan / Hitam-putih untuk preview.
 
 **Acceptance:** warna sumber tidak berubah; mode berbeda menghasilkan hasil yang sesuai fixture referensi; dimensi dan alpha dipertahankan pada output simulasi; tidak ada klaim hasil sebagai persepsi aktual setiap individu.
 ### FR-03 — Color Conflict Detection
@@ -94,6 +96,8 @@ Gunakan `CvdMode`, `SimulatedMode`, `ColorSwatch`, `ColorConflict`, dan `ColorAn
 - Jangan menyebut ΔE sebagai skor aksesibilitas manusia; temuan tahap ini hanya potensi konflik piksel. Warna dekoratif ditangani saat konfirmasi.
 
 ## 7. Testing dan acceptance checklist
+
+Tambahkan fixture dengan 4 kategori + swatch latar/teks serta fixture >4 kategori: ekstraksi tidak terpotong menjadi empat swatch. Verifikasi fungsi simulasi dapat dipakai untuk seluruh mode pada source dan repair, tanpa mutasi.
 
 | Test | Lulus jika |
 |---|---|

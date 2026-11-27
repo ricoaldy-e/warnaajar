@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { PatternConfig, PatternKind } from '@/types';
-import { recommendPatterns } from '../patterns';
+import { PATTERN_KINDS } from '../constants';
+import { recommendPatterns, validatePatternConfigs } from '../patterns';
 import { patternScale, repairImage } from '../renderer';
 import { COLORS, RECTS, chartFixture, changedIn, fillRect, pixelAt, solidImage, type Rect } from './fixtures';
 
@@ -234,6 +235,79 @@ describe('repairImage perilaku lain', () => {
     const { warnings } = repairImage(image, swatches, categories, 'categorical', configs);
     expect(warnings.some((w) => w.includes('"Rendah" terlalu mirip dengan warna "near"'))).toBe(true);
     expect(warnings.some((w) => w.includes('"Latar" memenuhi sebagian besar tepi gambar'))).toBe(true);
+  });
+});
+
+describe('batas 1–4 kategori dan jenis pola unik', () => {
+  const HEXES = ['#E41A1C', '#377EB8', '#4DAF4A', '#984EA3', '#FF7F00'];
+  // Satu blok warna per kategori, dipisah latar putih.
+  const bands = (n: number) => {
+    const image = solidImage(n * 30 + 2, 34, COLORS.background);
+    const hexes = HEXES.slice(0, n);
+    hexes.forEach((hex, i) => fillRect(image, [2 + i * 30, 2, 28, 30], hex));
+    const swatches = [{ id: 'bg', hex: COLORS.background }, ...hexes.map((hex, i) => ({ id: `c${i}`, hex }))];
+    const categories = hexes.map((_, i) => ({ colorId: `c${i}`, label: `K${i}`, included: true, order: i + 1 }));
+    return { image, swatches, categories };
+  };
+  const configsOf = (...kinds: PatternKind[]): PatternConfig[] =>
+    kinds.map((kind, i) => ({ colorId: `c${i}`, kind, spacingPx: 8 }));
+  const expectBlocked = (
+    { image, swatches, categories }: ReturnType<typeof bands>,
+    dataType: 'categorical' | 'ordinal',
+    configs: PatternConfig[],
+    message: string,
+  ) => {
+    expect(validatePatternConfigs(configs, categories, swatches, dataType).errors.join()).toContain(message);
+    const result = repairImage(image, swatches, categories, dataType, configs);
+    expect(result.image).not.toBe(image);
+    expect(result.image.data).toEqual(image.data);
+    expect(result.appliedColorIds).toEqual([]);
+    expect(result.warnings.join()).toContain(message);
+  };
+
+  it('dua kategori boleh memakai pasangan mana pun dari empat jenis', () => {
+    const { image, swatches, categories } = bands(2);
+    for (const first of PATTERN_KINDS) {
+      for (const second of PATTERN_KINDS.filter((k) => k !== first)) {
+        const result = repairImage(image, swatches, categories, 'categorical', configsOf(first, second));
+        expect(result.appliedColorIds).toEqual(['c0', 'c1']);
+        expect(result.warnings).toEqual([]);
+      }
+    }
+  });
+
+  it('empat kategori dengan jenis unik ter-render', () => {
+    const { image, swatches, categories } = bands(4);
+    const result = repairImage(image, swatches, categories, 'categorical', configsOf(...PATTERN_KINDS));
+    expect(result.appliedColorIds).toEqual(['c0', 'c1', 'c2', 'c3']);
+    expect(result.warnings).toEqual([]);
+  });
+
+  it.each(['categorical', 'ordinal'] as const)('lima kategori %s ditolak tanpa mengubah piksel', (dataType) => {
+    const fixture = bands(5);
+    expect(recommendPatterns(fixture.categories, fixture.swatches, dataType).configs).toEqual([]);
+    // Konfigurasi buatan tangan pun tidak boleh meloloskan sebagian kategori.
+    expectBlocked(fixture, dataType, configsOf(...PATTERN_KINDS), '1–4 kategori');
+  });
+
+  it('jenis pola duplikat pada categorical diblok', () => {
+    expectBlocked(bands(2), 'categorical', configsOf('dots', 'dots'), 'dipakai bersama');
+  });
+
+  it.each(['categorical', 'ordinal'] as const)('kategori %s tanpa pola diblok seluruhnya', (dataType) => {
+    expectBlocked(bands(2), dataType, configsOf('diagonal'), 'belum diberi pola');
+  });
+
+  it.each([
+    ['terbalik', 8, 16],
+    ['sama', 8, 8],
+    ['sama setelah dibulatkan', 10.4, 10.2],
+  ])('kerapatan ordinal %s diblok', (_, low, high) => {
+    const configs: PatternConfig[] = [
+      { colorId: 'c0', kind: 'diagonal', spacingPx: low },
+      { colorId: 'c1', kind: 'diagonal', spacingPx: high },
+    ];
+    expectBlocked(bands(2), 'ordinal', configs, 'lebih rapat');
   });
 });
 

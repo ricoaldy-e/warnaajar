@@ -22,7 +22,7 @@ Owner: Rico. Mencakup FR-07, engine FR-08, dan FR-12. Tipe bersama diimpor dari 
 // Jalankan di event handler atau efek di browser.
 // 1. Setelah mapping dikonfirmasi pengguna
 const initial = recommendPatterns(categories, swatches, dataType);
-let configs = initial.configs; // initial.warnings: kategori tanpa pola (> 4 categorical) atau mapping tidak valid
+let configs = initial.configs; // kosong jika mapping ditolak; alasannya di initial.warnings
 
 // 2. Setiap pengguna mengubah pola
 const { errors, warnings } = validatePatternConfigs(configs, categories, swatches, dataType);
@@ -40,6 +40,14 @@ const { blob, filename } = await exportImageDataToPng(result.image, file.name);
 - `errors` tidak kosong: `repairImage` mengembalikan salinan sumber tanpa pola dan `appliedColorIds: []`.
 - `result.warnings` **sudah memuat** pesan dari `validatePatternConfigs`, termasuk peringatan tingkat ordinal yang terlalu rapat. Jangan tampilkan keduanya sekaligus.
 - `recommendPatterns` dengan mapping tidak valid mengembalikan `configs: []`; alasannya ada di `warnings`.
+
+### Aturan blok (v1.1)
+
+- **1–4 kategori `included`**, untuk categorical maupun ordinal. Kategori `excluded` (latar, teks, grid, dekorasi) tidak dihitung. Jika 0 atau lebih dari 4: `recommendPatterns`/`resetPatterns` mengembalikan `configs: []`, `validatePatternConfigs` mengisi `errors`, dan `repairImage` tidak mengubah satu piksel pun. Tidak ada perbaikan sebagian.
+- **Categorical: jenis pola harus unik.** Duplikat `kind` masuk `errors`, walau jaraknya berbeda. Untuk 1–3 kategori, guru bebas memilih jenis mana pun dari `PATTERN_KINDS`.
+- **Tepat satu konfigurasi per kategori `included`.** Kategori tanpa pola masuk `errors`.
+- **Ordinal:** semua tingkat wajib `ORDINAL_PATTERN_KIND` (dropdown jenis pola sebaiknya dikunci di editor) dan jarak harus mengecil seiring `order` setelah dibulatkan; jika tidak, `errors`. Selisih < 3 px dengan arah yang benar hanya `warnings`. Saat slider digeser, state antara bisa tidak valid, jadi tampilkan `errors` tanpa membuang pilihan pengguna.
+- UI **tidak boleh** meminta pengguna mengecualikan kategori yang relevan hanya untuk lolos batas.
 
 ## 2. Catatan integrasi wajib (Modul 4)
 
@@ -68,11 +76,12 @@ Semua ada di [constants.ts](constants.ts). Nilai di bawah sudah dicek pada uji b
 
 | Konstanta | Nilai | Arti |
 |---|---|---|
+| `MAX_INCLUDED_CATEGORIES` | 4 | Batas kategori `included` (tidak diekspor) |
 | `MIN_SPACING_PX` / `MAX_SPACING_PX` | 4 / 32 | Batas jarak yang diterima |
 | `CATEGORICAL_SPACING_PX` | 10 | Jarak awal categorical |
 | `ORDINAL_PATTERN_KIND` | `diagonal` | Keluarga arsir ordinal |
 | `ORDINAL_SPARSEST_` / `ORDINAL_DENSEST_SPACING_PX` | 24 / 6 | Tingkat terendah → tertinggi |
-| `MIN_ORDINAL_STEP_PX` | 3 | Selisih jarak antartingkat berurutan di bawah ini diperingatkan oleh `validatePatternConfigs` (rekomendasi default: ≥ 8 tingkat; ≥ 20 tingkat ditolak) |
+| `MIN_ORDINAL_STEP_PX` | 3 | Selisih jarak antartingkat berurutan di bawah ini diperingatkan oleh `validatePatternConfigs` (bisa terjadi lewat slider manual) |
 | `DEFAULT_MASK_TOLERANCE` | 0,05 | Jarak Euclidean OKLab; **bukan** ambang ΔE konflik. Tidak diubah: JPEG q50 tetap tertangkap |
 | `MASK_EDGE_INSET_PX` | 2 (absolut) | Jarak dari warna lain yang dibiarkan tanpa pola. **Tidak lagi dikali scale:** sebelumnya menjadi 4 px di gambar 3–4K dan mengosongkan kotak legenda |
 | `MIN_USABLE_MASK_SHARE` | 0,35 | Warning "tidak merata" jika area berpola < 35% dari piksel yang cocok (area terpecah, tipis, atau bergradasi) |
@@ -111,6 +120,8 @@ Tabel di atas memakai konstanta saat itu (scale linear, jarak tepi dikali scale)
 
 ### 4a. Uji 11 gambar nyata (27 November 2026, setelah perbaikan scale dan warning)
 
+> **Catatan v1.1:** uji ini dijalankan **sebelum** batas keras 1–4 kategori diterapkan. Gambar dengan lebih dari 4 kategori (pie 8 kategori, diagram garis 8 warna, batang bertumpuk 5 warna, peta dan matriks 5–10 tingkat) kini sengaja diblok oleh engine, jadi baris-baris itu hanya menggambarkan perilaku masking dan pola, bukan hasil yang bisa didapat sekarang. Harness belum dijalankan ulang.
+
 Gambar dari internet (bukan buatan tim); swatch dan urutan dipilih manual dari piksel asli. Latar, teks, dan garis batas disertakan sebagai `included: false`. Harness ada di `.local-test/` (tidak masuk git). Gambar > 4096 px diperkecil dulu oleh harness.
 
 | Gambar | Ukuran diuji | Repair | Pola | Hasil |
@@ -136,12 +147,11 @@ Semua PNG bisa di-decode dengan dimensi identik, 0 piksel opak berbeda, dan sumb
 - Tebal area diestimasi **per warna**, bukan per region: strip tipis di samping area besar berwarna sama tidak diperingatkan. Sebaliknya, tepi yang bergerigi (noise JPEG, banyak teks) menurunkan estimasi sehingga warning bisa muncul walau area utamanya lebar (terjadi pada matriks JPEG uji).
 - **Kotak legenda mini (< ~20 px)** hanya berisi serpihan pola karena 2 px di setiap sisi dibiarkan kosong dan jarak pola default 10–24 px. Tidak ada warning khusus, karena area dihitung per warna, bukan per kotak. Kotak legenda ≥ 40 px lebih aman.
 - **Teks berkontras rendah di atas fill** (mis. abu-abu semi-transparan di sel merah muda) ikut dilintasi pola: inti huruf terlindungi, tetapi tepi huruf yang berjarak ≤ 0,05 dari fill dianggap fill. Menambah swatch tidak membantu karena warna teks berupa campuran.
-- Ordinal dengan banyak tingkat (≥ 8) sulit dibedakan; kini diperingatkan di `repairImage().warnings`.
+- Maksimal 4 kategori informasi per gambar; satu visual per gambar. Engine tidak mendeteksi multi-visual, jadi pengecekan itu ada di UI/review guru.
 - Gambar sumber dengan tepi semi-transparan (latar transparan) dapat mendapat tinta pola pada piksel semi-transparan; alpha tetap dipertahankan.
 - Warna kategori yang sangat terang (mis. `#FFFFB2`) berjarak ≤ 0,10 dari putih dan memicu peringatan "terlalu mirip". Ini wajar: pemisahan tetap memakai swatch terdekat, tetapi piksel anti-aliasing di perbatasannya bisa salah kelompok.
 - Tidak ada connected components: peringatan area kecil dihitung per warna, bukan per region.
 - Teks atau garis yang sewarna dengan fill tidak bisa dilindungi.
 - Deteksi latar memakai piksel tepi: gambar yang di-crop rapat sehingga tepinya didominasi satu kategori akan memicu peringatan latar.
-- Hanya 4 pola: kategori categorical ke-5 dan seterusnya tidak diberi pola (disebut di `warnings`).
 - Piksel semi-transparan bisa bergeser sedikit saat export karena premultiplied alpha canvas. Piksel opak terbukti identik.
 - Pola tidak mengubah ΔE warna sumber; jangan melaporkan konflik warna hilang.

@@ -2,6 +2,7 @@
 import type { ColorSwatch, DataType, PatternConfig, PatternKind, SemanticCategory } from '@/types';
 import {
   CATEGORICAL_SPACING_PX,
+  MAX_INCLUDED_CATEGORIES,
   MAX_SPACING_PX,
   MIN_ORDINAL_STEP_PX,
   MIN_SPACING_PX,
@@ -19,7 +20,12 @@ function mappingErrors(
   dataType: DataType,
 ): string[] {
   if (dataType === 'unknown') return ['Jenis data belum diketahui. Konfirmasi categorical atau ordinal.'];
-  if (included.length === 0) return ['Tidak ada kategori yang disertakan.'];
+  if (included.length === 0 || included.length > MAX_INCLUDED_CATEGORIES) {
+    return [
+      `Perbaikan otomatis mendukung 1–${MAX_INCLUDED_CATEGORIES} kategori informasi; ` +
+        `saat ini ${included.length} kategori disertakan.`,
+    ];
+  }
 
   const errors: string[] = [];
   const swatchIds = new Set(swatches.map((s) => s.id));
@@ -54,24 +60,15 @@ export function recommendPatterns(
   const errors = mappingErrors(included, swatches, dataType);
   if (errors.length > 0) return { configs: [], warnings: errors };
 
-  const warnings: string[] = [];
-
   if (dataType === 'ordinal') {
     const range = ORDINAL_SPARSEST_SPACING_PX - ORDINAL_DENSEST_SPACING_PX;
-    const steps = included.length - 1;
-    if (steps > range) {
-      return {
-        configs: [],
-        warnings: [`Terlalu banyak tingkat (${included.length}); maksimum ${range + 1} tingkat.`],
-      };
-    }
-    const step = steps === 0 ? 0 : range / steps;
+    const step = range / Math.max(1, included.length - 1);
     const configs = byOrder(included).map((c, rank) => ({
       colorId: c.colorId,
       kind: ORDINAL_PATTERN_KIND,
       spacingPx: Math.round(ORDINAL_SPARSEST_SPACING_PX - rank * step),
     }));
-    return { configs, warnings };
+    return { configs, warnings: [] };
   }
 
   // Saran valid diklaim lebih dulu agar tidak direbut pola cadangan kategori sebelumnya.
@@ -80,28 +77,14 @@ export function recommendPatterns(
   for (const c of included) {
     if (c.suggestedPattern && unused.delete(c.suggestedPattern)) assigned.set(c.colorId, c.suggestedPattern);
   }
-  for (const c of included) {
-    const [next] = unused;
-    if (!assigned.has(c.colorId) && next) {
-      unused.delete(next);
-      assigned.set(c.colorId, next);
-    }
-  }
-
-  const configs: PatternConfig[] = [];
-  const skipped: string[] = [];
-  for (const c of included) {
-    const kind = assigned.get(c.colorId);
-    if (kind) configs.push({ colorId: c.colorId, kind, spacingPx: CATEGORICAL_SPACING_PX });
-    else skipped.push(nameOf(c));
-  }
-  if (skipped.length > 0) {
-    warnings.push(
-      `Hanya tersedia ${PATTERN_KINDS.length} pola untuk ${included.length} kategori. ` +
-        `Belum diberi pola: ${skipped.join(', ')}. Tidak semua kategori terbedakan.`,
-    );
-  }
-  return { configs, warnings };
+  // Cadangan selalu cukup karena jumlah kategori tidak melebihi jumlah jenis pola.
+  const rest = [...unused];
+  const configs = included.map((c) => ({
+    colorId: c.colorId,
+    kind: assigned.get(c.colorId) ?? (rest.shift() as PatternKind),
+    spacingPx: CATEGORICAL_SPACING_PX,
+  }));
+  return { configs, warnings: [] };
 }
 
 // Rekomendasi deterministik, jadi reset cukup menghitung ulang.
@@ -134,28 +117,30 @@ export function validatePatternConfigs(
   }
 
   for (const c of included) {
-    if (!byColor.has(c.colorId)) warnings.push(`Kategori "${nameOf(c)}" belum diberi pola.`);
+    if (!byColor.has(c.colorId)) errors.push(`Kategori "${nameOf(c)}" belum diberi pola.`);
   }
 
   if (dataType === 'categorical') {
     for (const kind of PATTERN_KINDS) {
       const names = included.filter((c) => byColor.get(c.colorId)?.kind === kind).map(nameOf);
-      if (names.length > 1) warnings.push(`Pola "${kind}" dipakai bersama: ${names.join(', ')}.`);
+      if (names.length > 1) {
+        errors.push(`Pola "${kind}" dipakai bersama: ${names.join(', ')}. Pilih jenis pola yang berbeda.`);
+      }
     }
   } else {
     const ranked = byOrder(included).flatMap((c) => {
       const config = byColor.get(c.colorId);
       return config ? [{ name: nameOf(c), ...config }] : [];
     });
-    if (new Set(ranked.map((r) => r.kind)).size > 1) {
-      warnings.push('Data ordinal harus memakai satu keluarga pola yang sama.');
+    if (ranked.some((r) => r.kind !== ORDINAL_PATTERN_KIND)) {
+      errors.push(`Data ordinal hanya memakai pola "${ORDINAL_PATTERN_KIND}" untuk semua tingkat.`);
     }
     const close: string[] = [];
     for (let i = 1; i < ranked.length; i++) {
       // Dibandingkan setelah dibulatkan karena renderer membulatkan jarak ke piksel utuh.
       const step = Math.round(ranked[i - 1].spacingPx) - Math.round(ranked[i].spacingPx);
       if (!(step > 0)) {
-        warnings.push(`Arsir "${ranked[i].name}" harus lebih rapat daripada "${ranked[i - 1].name}".`);
+        errors.push(`Arsir "${ranked[i].name}" harus lebih rapat daripada "${ranked[i - 1].name}".`);
       } else if (step < MIN_ORDINAL_STEP_PX) {
         close.push(`"${ranked[i - 1].name}" → "${ranked[i].name}"`);
       }
