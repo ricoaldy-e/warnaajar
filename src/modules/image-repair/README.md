@@ -45,6 +45,8 @@ const { blob, filename } = await exportImageDataToPng(result.image, file.name);
 
 - **1–4 kategori `included`**, untuk categorical maupun ordinal. Kategori `excluded` (latar, teks, grid, dekorasi) tidak dihitung. Jika 0 atau lebih dari 4: `recommendPatterns`/`resetPatterns` mengembalikan `configs: []`, `validatePatternConfigs` mengisi `errors`, dan `repairImage` tidak mengubah satu piksel pun. Tidak ada perbaikan sebagian.
 - **Categorical: jenis pola harus unik.** Duplikat `kind` masuk `errors`, walau jaraknya berbeda. Untuk 1–3 kategori, guru bebas memilih jenis mana pun dari `PATTERN_KINDS`.
+- **Tepat satu konfigurasi per kategori `included`.** Kategori tanpa pola masuk `errors`.
+- **Ordinal:** semua tingkat wajib `ORDINAL_PATTERN_KIND` (dropdown jenis pola sebaiknya dikunci di editor) dan jarak harus mengecil seiring `order` setelah dibulatkan; jika tidak, `errors`. Selisih < 3 px dengan arah yang benar hanya `warnings`. Saat slider digeser, state antara bisa tidak valid, jadi tampilkan `errors` tanpa membuang pilihan pengguna.
 - UI **tidak boleh** meminta pengguna mengecualikan kategori yang relevan hanya untuk lolos batas.
 
 ## 2. Catatan integrasi wajib (Modul 4)

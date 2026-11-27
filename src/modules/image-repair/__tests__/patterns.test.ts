@@ -151,21 +151,31 @@ describe('validatePatternConfigs', () => {
     const result = check([config('a'), config('b', 20)]);
     expect(result.errors).toHaveLength(1);
     expect(result.errors[0]).toContain('dipakai bersama: a, b');
-    expect(check([config('a'), config('b', 20)], 'ordinal').errors).toEqual([]);
+    expect(check([config('a', 20), config('b', 10)], 'ordinal').errors).toEqual([]);
   });
 
-  it('memperingatkan kategori tanpa pola', () => {
-    expect(check([config('a')]).warnings).toHaveLength(1);
+  it.each(['categorical', 'ordinal'] as const)('menolak kategori %s tanpa pola', (dataType) => {
+    expect(check([config('a')], dataType).errors).toEqual(['Kategori "b" belum diberi pola.']);
+    expect(check([], dataType).errors).toHaveLength(2);
   });
 
-  it('memperingatkan kerapatan ordinal terbalik, sama, atau beda keluarga', () => {
-    expect(check([config('a', 8), config('b', 16)], 'ordinal').warnings).toHaveLength(1);
-    expect(check([config('a', 8), config('b', 8)], 'ordinal').warnings).toHaveLength(1);
-    expect(check([config('a', 10.4), config('b', 10.2)], 'ordinal').warnings).toHaveLength(1);
-    expect(check([config('a', 16), config('b', 8, 'dots')], 'ordinal').warnings).toHaveLength(1);
-    expect(check([config('a', 10), config('b', 8)], 'ordinal').warnings).toEqual([
-      'Selisih jarak arsir kurang dari 3 px sehingga sulit dibedakan: "a" → "b".',
-    ]);
+  it.each([
+    ['terbalik', config('a', 8), config('b', 16), 'lebih rapat'],
+    ['sama', config('a', 8), config('b', 8), 'lebih rapat'],
+    ['sama setelah dibulatkan', config('a', 10.4), config('b', 10.2), 'lebih rapat'],
+    ['beda keluarga', config('a', 16), config('b', 8, 'dots'), 'hanya memakai pola "diagonal"'],
+    ['seragam tapi bukan diagonal', config('a', 16, 'dots'), config('b', 8, 'dots'), 'hanya memakai pola "diagonal"'],
+  ])('menolak ordinal %s', (_, a, b, message) => {
+    const { errors } = check([a, b], 'ordinal');
+    expect(errors).toHaveLength(1);
+    expect(errors[0]).toContain(message);
+  });
+
+  it('selisih rapat dengan arah benar hanya warning', () => {
+    expect(check([config('a', 10), config('b', 8)], 'ordinal')).toEqual({
+      errors: [],
+      warnings: ['Selisih jarak arsir kurang dari 3 px sehingga sulit dibedakan: "a" → "b".'],
+    });
   });
 });
 

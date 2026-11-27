@@ -117,7 +117,7 @@ export function validatePatternConfigs(
   }
 
   for (const c of included) {
-    if (!byColor.has(c.colorId)) warnings.push(`Kategori "${nameOf(c)}" belum diberi pola.`);
+    if (!byColor.has(c.colorId)) errors.push(`Kategori "${nameOf(c)}" belum diberi pola.`);
   }
 
   if (dataType === 'categorical') {
@@ -132,15 +132,15 @@ export function validatePatternConfigs(
       const config = byColor.get(c.colorId);
       return config ? [{ name: nameOf(c), ...config }] : [];
     });
-    if (new Set(ranked.map((r) => r.kind)).size > 1) {
-      warnings.push('Data ordinal harus memakai satu keluarga pola yang sama.');
+    if (ranked.some((r) => r.kind !== ORDINAL_PATTERN_KIND)) {
+      errors.push(`Data ordinal hanya memakai pola "${ORDINAL_PATTERN_KIND}" untuk semua tingkat.`);
     }
     const close: string[] = [];
     for (let i = 1; i < ranked.length; i++) {
       // Dibandingkan setelah dibulatkan karena renderer membulatkan jarak ke piksel utuh.
       const step = Math.round(ranked[i - 1].spacingPx) - Math.round(ranked[i].spacingPx);
       if (!(step > 0)) {
-        warnings.push(`Arsir "${ranked[i].name}" harus lebih rapat daripada "${ranked[i - 1].name}".`);
+        errors.push(`Arsir "${ranked[i].name}" harus lebih rapat daripada "${ranked[i - 1].name}".`);
       } else if (step < MIN_ORDINAL_STEP_PX) {
         close.push(`"${ranked[i - 1].name}" → "${ranked[i].name}"`);
       }

@@ -293,6 +293,22 @@ describe('batas 1–4 kategori dan jenis pola unik', () => {
   it('jenis pola duplikat pada categorical diblok', () => {
     expectBlocked(bands(2), 'categorical', configsOf('dots', 'dots'), 'dipakai bersama');
   });
+
+  it.each(['categorical', 'ordinal'] as const)('kategori %s tanpa pola diblok seluruhnya', (dataType) => {
+    expectBlocked(bands(2), dataType, configsOf('diagonal'), 'belum diberi pola');
+  });
+
+  it.each([
+    ['terbalik', 8, 16],
+    ['sama', 8, 8],
+    ['sama setelah dibulatkan', 10.4, 10.2],
+  ])('kerapatan ordinal %s diblok', (_, low, high) => {
+    const configs: PatternConfig[] = [
+      { colorId: 'c0', kind: 'diagonal', spacingPx: low },
+      { colorId: 'c1', kind: 'diagonal', spacingPx: high },
+    ];
+    expectBlocked(bands(2), 'ordinal', configs, 'lebih rapat');
+  });
 });
 
 describe('deteksi latar dari piksel tepi', () => {
