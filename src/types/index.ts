@@ -72,3 +72,40 @@ export interface VerificationResult {
   items: VerificationItem[];
   warnings: string[];
 }
+
+// Tambahan integrasi dan state sesi (CONTRACTS.md §2.1 & §7).
+export interface ConfirmedMapping {
+  dataType: Exclude<DataType, 'unknown'>;
+  categories: SemanticCategory[];
+}
+
+export interface AnalysisContext {
+  subject?: string;
+  grade?: string;
+}
+
+export interface ApiErrorResponse {
+  error: {
+    code: string;
+    message: string;
+  };
+}
+
+export interface SourceImage {
+  file: Blob;
+  name: string;
+  image: ImageData;
+}
+
+export interface SessionData {
+  sourceImage: SourceImage | null;
+  colorAnalysis: ColorAnalysisResult | null;
+  semanticAnalysis: SemanticAnalysis | null;
+  confirmedMapping: ConfirmedMapping | null;
+  patterns: PatternConfig[];
+  repairResult: RepairResult | null;
+  reviewedQuestions: VerificationQuestion[] | null;
+  verificationResult: VerificationResult | null;
+  previewMode: CvdMode;
+  revision: number;
+}
