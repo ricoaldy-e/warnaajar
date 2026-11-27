@@ -38,12 +38,35 @@ describe('recommendPatterns categorical', () => {
     expect(recommendPatterns(categories, swatchesFor(categories), 'categorical').configs[0].kind).toBe('diagonal');
   });
 
-  it('memperingatkan jika kategori melebihi jumlah pola', () => {
-    const categories = ids(5).map((id) => cat(id));
+  it('memberi empat jenis unik untuk empat kategori', () => {
+    const categories = ids(4).map((id) => cat(id));
     const { configs, warnings } = recommendPatterns(categories, swatchesFor(categories), 'categorical');
     expect(new Set(configs.map((c) => c.kind)).size).toBe(4);
-    expect(configs).toHaveLength(4);
-    expect(warnings.join()).toContain('c4');
+    expect(warnings).toEqual([]);
+  });
+});
+
+describe('batas 1–4 kategori included', () => {
+  it.each([
+    [0, 'categorical'],
+    [5, 'categorical'],
+    [0, 'ordinal'],
+    [5, 'ordinal'],
+    [10, 'ordinal'],
+  ] as const)('menolak %i kategori %s tanpa konfigurasi sebagian', (n, dataType) => {
+    const categories = ordinal(n);
+    const swatches = swatchesFor(categories);
+    for (const recommend of [recommendPatterns, resetPatterns]) {
+      const result = recommend(categories, swatches, dataType);
+      expect(result.configs).toEqual([]);
+      expect(result.warnings.join()).toContain('1–4 kategori');
+    }
+    expect(validatePatternConfigs([], categories, swatches, dataType).errors.join()).toContain('1–4 kategori');
+  });
+
+  it('kategori excluded tidak dihitung', () => {
+    const categories = [...ordinal(4), cat('latar', { included: false }), cat('teks', { included: false })];
+    expect(recommendPatterns(categories, swatchesFor(categories), 'categorical').configs).toHaveLength(4);
   });
 });
 
@@ -69,21 +92,12 @@ describe('recommendPatterns ordinal', () => {
     expect(warnings).not.toEqual([]);
   });
 
-  it('tingkat rapat diperingatkan oleh validasi, dan yang melebihi rentang ditolak', () => {
-    const many = ordinal(19);
-    const dense = recommendPatterns(many, swatchesFor(many), 'ordinal');
-    expect(new Set(dense.configs.map((c) => c.spacingPx)).size).toBe(19);
-    expect(dense.warnings).toEqual([]);
-    const { warnings } = validatePatternConfigs(dense.configs, many, swatchesFor(many), 'ordinal');
-    expect(warnings).toHaveLength(1);
-    expect(warnings[0]).toContain('sulit dibedakan');
-
-    const seven = ordinal(7); // selisih tepat 3 px
-    const fine = recommendPatterns(seven, swatchesFor(seven), 'ordinal');
-    expect(validatePatternConfigs(fine.configs, seven, swatchesFor(seven), 'ordinal').warnings).toEqual([]);
-
-    const tooMany = ordinal(20);
-    expect(recommendPatterns(tooMany, swatchesFor(tooMany), 'ordinal').configs).toEqual([]);
+  it('rekomendasi empat tingkat tetap satu keluarga tanpa warning kerapatan', () => {
+    const four = ordinal(4);
+    const { configs } = recommendPatterns(four, swatchesFor(four), 'ordinal');
+    expect(configs.map((c) => c.spacingPx)).toEqual([24, 18, 12, 6]);
+    expect(new Set(configs.map((c) => c.kind)).size).toBe(1);
+    expect(validatePatternConfigs(configs, four, swatchesFor(four), 'ordinal')).toEqual({ errors: [], warnings: [] });
   });
 });
 
@@ -133,8 +147,14 @@ describe('validatePatternConfigs', () => {
     }
   });
 
-  it('memperingatkan pola duplikat dan kategori tanpa pola', () => {
-    expect(check([config('a'), config('b', 20)]).warnings).toHaveLength(1);
+  it('menolak jenis pola duplikat categorical meski jaraknya berbeda', () => {
+    const result = check([config('a'), config('b', 20)]);
+    expect(result.errors).toHaveLength(1);
+    expect(result.errors[0]).toContain('dipakai bersama: a, b');
+    expect(check([config('a'), config('b', 20)], 'ordinal').errors).toEqual([]);
+  });
+
+  it('memperingatkan kategori tanpa pola', () => {
     expect(check([config('a')]).warnings).toHaveLength(1);
   });
 
