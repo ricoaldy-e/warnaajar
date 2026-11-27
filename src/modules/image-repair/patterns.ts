@@ -1,4 +1,4 @@
-// Aturan konfigurasi pola (FR-07, FR-08). Pure functions; urutan "order" lebih besar = tingkat lebih tinggi.
+// "order" lebih besar = tingkat lebih tinggi.
 import type { ColorSwatch, DataType, PatternConfig, PatternKind, SemanticCategory } from '@/types';
 import {
   CATEGORICAL_SPACING_PX,
@@ -13,7 +13,6 @@ import {
 
 const nameOf = (c: SemanticCategory): string => c.label ?? c.colorId;
 
-/** Masalah mapping yang membuat kategori included tidak aman diproses. */
 function mappingErrors(
   included: SemanticCategory[],
   swatches: ColorSwatch[],
@@ -42,14 +41,10 @@ function mappingErrors(
   return errors;
 }
 
-/** Hanya dipanggil setelah mappingErrors memastikan semua order valid. */
+// Hanya dipanggil setelah semua order valid.
 const byOrder = (categories: SemanticCategory[]): SemanticCategory[] =>
   [...categories].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-/**
- * Rekomendasi awal untuk kategori included. Mapping tidak valid menghasilkan configs kosong.
- * Hasil mengikuti urutan input (ordinal: urutan tingkat).
- */
 export function recommendPatterns(
   categories: SemanticCategory[],
   swatches: ColorSwatch[],
@@ -70,7 +65,6 @@ export function recommendPatterns(
         warnings: [`Terlalu banyak tingkat (${included.length}); maksimum ${range + 1} tingkat.`],
       };
     }
-    // Selisih antartingkat yang terlalu kecil diperingatkan oleh validatePatternConfigs.
     const step = steps === 0 ? 0 : range / steps;
     const configs = byOrder(included).map((c, rank) => ({
       colorId: c.colorId,
@@ -110,10 +104,10 @@ export function recommendPatterns(
   return { configs, warnings };
 }
 
-/** Reset editor: rekomendasi bersifat deterministik, jadi cukup dihitung ulang dari mapping. */
+// Rekomendasi deterministik, jadi reset cukup menghitung ulang.
 export const resetPatterns = recommendPatterns;
 
-/** errors = jangan dirender; warnings = boleh dirender tetapi tampilkan ke pengguna. */
+// errors = jangan dirender; warnings = boleh dirender, tampilkan ke pengguna.
 export function validatePatternConfigs(
   configs: PatternConfig[],
   categories: SemanticCategory[],

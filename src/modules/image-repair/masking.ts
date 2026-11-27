@@ -1,4 +1,3 @@
-// Color masking berbasis swatch terkonfirmasi (FR-07). Pure functions di atas ImageData.
 import { converter, differenceEuclidean, type Oklab } from 'culori';
 import type { ColorSwatch } from '@/types';
 import { BACKGROUND_BORDER_SHARE } from './constants';
@@ -12,7 +11,7 @@ interface Ref {
   lab: Oklab;
 }
 
-/** Swatch dengan hex tidak valid diabaikan (tidak pernah cocok). */
+// Swatch dengan hex tidak valid diabaikan.
 function swatchRefs(swatches: ColorSwatch[], targetIds: string[]): Ref[] {
   return swatches.flatMap((s) => {
     const lab = toOklab(s.hex);
@@ -20,7 +19,7 @@ function swatchRefs(swatches: ColorSwatch[], targetIds: string[]): Ref[] {
   });
 }
 
-/** Indeks target dari swatch terdekat (di antara SEMUA swatch), atau -1 jika terdekatnya bukan target/di luar toleransi. */
+// Swatch non-target ikut bersaing agar warna latar/teks tidak tertarik ke target.
 function nearestTarget(rgb: number, refs: Ref[], tolerance: number): number {
   const lab = toOklab({ mode: 'rgb', r: (rgb >> 16) / 255, g: ((rgb >> 8) & 255) / 255, b: (rgb & 255) / 255 });
   let best = -1;
@@ -35,23 +34,17 @@ function nearestTarget(rgb: number, refs: Ref[], tolerance: number): number {
 export interface CategoryMask {
   /** Per piksel: indeks pada targetIds, atau -1. */
   mask: Int16Array;
-  /** Jumlah piksel mask per target. */
   areas: number[];
   /** Jumlah piksel yang cocok per target sebelum tepi dibuang. */
   pixels: number[];
   /** Estimasi tebal rata-rata area cocok per target (px): 2 × luas / piksel tepi. 0 jika tidak ada. */
   thickness: number[];
-  /** Jumlah piksel dengan alpha > 0. */
   opaquePixels: number;
   /** Indeks target yang menempati mayoritas piksel tepi gambar (kemungkinan latar), atau -1. */
   backgroundTarget: number;
 }
 
-/**
- * Piksel masuk mask jika swatch terdekatnya adalah target dan jaraknya ≤ tolerance.
- * Piksel alpha 0 diabaikan. Tepi selebar `inset` px dibuang (erosi 4-tetangga berulang) agar
- * teks, angka, garis batas, dan piksel anti-aliasing di sekitarnya tidak terkena pola.
- */
+// Tepi selebar `inset` px dibuang agar teks, garis batas, dan anti-aliasing tidak terkena pola.
 export function buildCategoryMask(
   image: ImageData,
   swatches: ColorSwatch[],
@@ -129,7 +122,6 @@ export function buildCategoryMask(
   return { mask, areas, pixels, thickness, opaquePixels, backgroundTarget };
 }
 
-/** Pasangan [targetId, swatchId lain] yang rentang toleransinya tumpang tindih (jarak ≤ 2× toleransi). */
 export function findOverlappingSwatches(
   swatches: ColorSwatch[],
   targetIds: string[],

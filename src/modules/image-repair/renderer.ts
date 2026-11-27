@@ -1,4 +1,3 @@
-// Render pola deterministik di atas salinan ImageData (FR-07, re-render FR-08). Sumber tidak pernah dimutasi.
 import { wcagContrast } from 'culori';
 import type { ColorSwatch, DataType, PatternConfig, PatternKind, RepairResult, SemanticCategory } from '@/types';
 import {
@@ -18,13 +17,12 @@ import {
 import { buildCategoryMask, findOverlappingSwatches } from './masking';
 import { validatePatternConfigs } from './patterns';
 
-/** 1 sampai sisi terpanjang PATTERN_SCALE_REFERENCE_PX, lalu naik akar kuadrat, maksimum MAX_PATTERN_SCALE. */
 export function patternScale(width: number, height: number): number {
   const ratio = Math.max(width, height) / PATTERN_SCALE_REFERENCE_PX;
   return Math.min(MAX_PATTERN_SCALE, Math.max(1, Math.sqrt(ratio)));
 }
 
-/** Pola dijangkar ke titik (0,0) gambar agar area dan legenda memakai fase yang sama. */
+// Dijangkar ke (0,0) agar area dan legenda memakai fase yang sama.
 function patternAt(kind: PatternKind, spacingPx: number, scale: number): (x: number, y: number) => boolean {
   const s = Math.round(spacingPx * scale);
   const t = Math.max(1, Math.round(PATTERN_LINE_WIDTH_PX * scale));
@@ -49,10 +47,7 @@ const LIGHT = bytes(PATTERN_INK_LIGHT);
 const inkFor = (hex: string): number[] =>
   wcagContrast(hex, PATTERN_INK_DARK) >= wcagContrast(hex, PATTERN_INK_LIGHT) ? DARK : LIGHT;
 
-/**
- * Terapkan pola pada salinan baru `source`. Config tidak valid → salinan utuh tanpa pola.
- * `tolerance`: jarak OKLab maksimum piksel ke swatch target (lihat DEFAULT_MASK_TOLERANCE).
- */
+// Selalu bekerja pada salinan; `source` tidak dimutasi.
 export function repairImage(
   source: ImageData,
   swatches: ColorSwatch[],
@@ -106,7 +101,6 @@ export function repairImage(
     }
   }
 
-  // Satu warning per warna, berdasarkan piksel pola yang benar-benar tergambar.
   const minArea = MIN_MASK_AREA_PX * scale * scale;
   configs.forEach(({ colorId, spacingPx }, k) => {
     const label = `"${name(colorId)}"`;

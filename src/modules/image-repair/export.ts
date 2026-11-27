@@ -1,4 +1,3 @@
-// Export PNG mode normal (FR-12). Hanya client; unduhan/object URL diurus UI.
 const SUFFIX = 'warnaajar';
 const MAX_BASE_LENGTH = 100;
 
@@ -15,7 +14,6 @@ export function buildExportFilename(sourceFilename = ''): string {
   return `${base || 'hasil'}-${SUFFIX}.png`;
 }
 
-/** Gambar ditulis apa adanya pada dimensi aslinya: tanpa watermark, UI, atau simulasi. */
 export async function exportImageDataToPng(
   image: ImageData,
   sourceFilename?: string,

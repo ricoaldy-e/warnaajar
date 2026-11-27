@@ -1,4 +1,4 @@
-// Public API Modul 3. Tipe bersama diimpor langsung dari '@/types'.
+// Tipe bersama diimpor langsung dari '@/types'.
 export {
   CATEGORICAL_SPACING_PX,
   DEFAULT_MASK_TOLERANCE,
