@@ -36,3 +36,6 @@ Dependency baru butuh persetujuan tim. Tanpa database, ORM, auth, Docker, backen
 - Sebelum melapor selesai: `npm run typecheck`, `npm run lint`, `npm test`
   (plus `npm run build` dan `npm run test:e2e` saat integrasi). Laporkan hasil apa adanya.
 - Dilarang commit, push, merge, atau deploy tanpa izin eksplisit.
+
+## Panduan Integrasi Antarmodul
+- Sebelum mengintegrasikan atau memanggil fungsi perbaikan gambar/pola (FR-07, FR-08, FR-12), wajib baca `src/modules/image-repair/README.md` untuk aturan pemanggilan client-only, penanganan `warnings`, dan dependensi swatch latar/teks.
