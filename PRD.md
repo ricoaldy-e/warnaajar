@@ -1,11 +1,13 @@
 # WarnaAjar — Product Requirements Document (PRD)
 
-> **Status:** baseline scope MVP untuk seluruh tim dan AI coding agent  
-> **Versi:** 1.0 — 27 November 2026  
+> **Status:** Final MVP Scope v1.1 — revisi requirement untuk sinkronisasi tim; bukan klaim implementasi selesai  
+> **Versi:** 1.1 — 27 November 2026  
 > **Produk:** WarnaAjar  
 > **Kategori:** Website · Quality Education (SDG 4)  
 > **Target internal pengumpulan:** malam 29 November 2026  
 > **Sumber:** dokumen tim *WarnaAjar — Konsep Lengkap* (26 November 2026) dan kesepakatan pembagian modul serta tech stack setelah diskusi.
+
+**Ringkasan revisi v1.1:** satu visual dan maksimal empat kategori informasi, empat mode simulasi/uji otomatis, satu output PNG normal dengan pola, evaluasi per mode, serta konfigurasi CosmosIn aktual. FR ID dan bentuk API/shared types inti tetap. Revisi ini perlu disinkronkan ke repo dan diuji.
 
 ---
 
@@ -72,9 +74,9 @@ Satu alur **Periksa → Pahami → Perbaiki → Uji** untuk mengubah visual pemb
 | FR-06 | Konfirmasi dan koreksi hasil pemetaan oleh pengguna | 4 + 2 |
 | FR-07 | Penambahan pola kategori dan arsir bertingkat secara deterministik | 3 |
 | FR-08 | Pengaturan jenis/kerapatan pola dan sinkronisasi legenda | 3 + 4 |
-| FR-09 | Uji Terbaca: pertanyaan, kunci jawaban, evaluasi visual sebelum/sesudah | 2 |
+| FR-09 | Uji Terbaca: pertanyaan, kunci jawaban, evaluasi visual sebelum/sesudah otomatis empat mode | 2 |
 | FR-10 | Perbandingan hasil asli dan hasil perbaikan, termasuk simulasi CVD | 1 + 4 |
-| FR-11 | Ringkasan hasil audit dan perbaikan yang dapat dipahami | 4 + 1 + 2 + 3 |
+| FR-11 | Ringkasan audit, perbaikan, serta hasil/status evaluasi empat mode | 4 + 1 + 2 + 3 |
 | FR-12 | Download PNG hasil perbaikan | 3 + 4 |
 | FR-13 | Beranda, contoh siap pakai, panduan dan batasan produk | 4 |
 
@@ -87,7 +89,7 @@ Satu alur **Periksa → Pahami → Perbaiki → Uji** untuk mengubah visual pemb
 
 ### 3.3 Di luar scope
 
-- Upload dan perbaikan seluruh modul PDF/PPT/DOCX secara otomatis, batch processing, OCR dokumen penuh.
+- Upload dan perbaikan seluruh modul PDF/PPT/DOCX secara otomatis, batch processing, OCR dokumen penuh, serta segmentasi multi-chart atau perbaikan visual dengan lebih dari empat kategori informasi.
 - Login, user profile, database, histori lintas sesi, penyimpanan cloud, role guru/siswa, dashboard kelas.
 - Chatbot, RAG, vector database, rekomendasi materi belajar, kuis siswa, LMS, portal sekolah.
 - Diagnosis atau skrining buta warna, profil kesehatan, simulasi klinis, eye tracking, AR, Chrome extension, aplikasi mobile native.
@@ -98,7 +100,7 @@ Satu alur **Periksa → Pahami → Perbaiki → Uji** untuk mengubah visual pemb
 
 ### 3.4 Batas input dan dukungan visual
 
-Satu gambar raster per sesi analisis. Jenis visual yang ditargetkan: diagram batang, diagram lingkaran, diagram garis, peta tematik, dan tabel berwarna dengan kategori warna datar yang dapat dipisahkan. Gambar harus memiliki resolusi cukup dan makna warna yang dapat dibaca atau dikonfirmasi pengguna.
+Satu gambar raster per sesi analisis. MVP mendukung satu visual per gambar, dengan 1–4 kategori informasi yang dipetakan berdasarkan warna; swatch teks, latar, grid dan dekorasi tidak dihitung sebagai kategori. Jika lebih dari empat kategori informasi atau terdapat beberapa visual, tetap izinkan analisis warna dan simulasi, tetapi blok repair otomatis dan jelaskan batasan. Jangan mengecualikan kategori informasi yang sebenarnya relevan hanya untuk melewati batas. Tidak ada recoloring P0: ΔE mengukur perbedaan warna, simulasi hanya preview/uji, pola menambah penanda nonwarna pada satu hasil universal. Jenis visual yang ditargetkan: diagram batang, diagram lingkaran, diagram garis, peta tematik, dan tabel berwarna dengan kategori warna datar yang dapat dipisahkan. Gambar harus memiliki resolusi cukup dan makna warna yang dapat dibaca atau dikonfirmasi pengguna.
 
 Dukungan diagram garis dibatasi pada garis yang cukup tebal/terpisah sehingga pola dapat diterapkan tanpa merusak informasi. Bila suatu visual terlalu tipis, kecil, ambigu, atau kompleks, tampilkan keterbatasan dan jangan memaksakan perbaikan. Tidak ada klaim dukungan semua variasi chart.
 
@@ -110,12 +112,14 @@ Warna yang merupakan objek pembelajaran itu sendiri (misalnya warna indikator ki
 
 1. Guru menyiapkan slide geografi yang mengandung peta kepadatan penduduk.
 2. Guru membuka WarnaAjar tanpa login, lalu mengunggah gambar peta lengkap dengan legenda (atau menempel screenshot).
-3. **Periksa:** sistem mengekstrak warna, menampilkan simulasi CVD, dan mendeteksi pasangan warna berpotensi sulit dibedakan.
+3. **Periksa:** sistem mengekstrak warna dan otomatis menyiapkan simulasi protan, deutan, tritan, grayscale serta deteksi konflik. Guru tidak memilih tipe CVD siswa.
 4. **Pahami:** AI mengidentifikasi makna warna (misalnya hijau = rendah, kuning = sedang, merah = tinggi), jenis data, dan menjelaskan potensi masalah.
-5. Guru mengonfirmasi atau mengoreksi kategori dan urutan. Jika perlu, guru memakai color picker untuk memilih warna yang belum terdeteksi.
+5. Guru mengonfirmasi atau mengoreksi kategori dan urutan. Jika perlu, gunakan color picker. Validasi satu visual dan 1–4 kategori informasi sebelum repair; jika tidak memenuhi, tampilkan batasan dan hasil analisis saja.
 6. **Perbaiki:** sistem menghasilkan penanda arsir yang semakin rapat untuk tingkat yang semakin tinggi. Legenda mengikuti penanda yang sama. Guru dapat menyesuaikan pola dan melihat preview.
-7. **Uji:** sistem menampilkan hasil perbandingan simulasi sebelum/sesudah dan evaluasi AI terhadap pertanyaan yang sama.
-8. Guru mengunduh PNG yang sudah diperbaiki dan mengganti gambar lama pada slide.
+7. Sistem menghasilkan satu gambar repair normal dan menyiapkan empat pasang preview before/after. Guru dapat memilih mode preview tanpa mengubah target repair.
+8. **Uji:** AI menyiapkan 2–3 soal dan kunci dari sumber normal; guru meninjau kunci. Saat Uji Terbaca dijalankan, sistem otomatis menguji empat mode dengan pertanyaan identik. Guru/siswa tidak mengerjakan soal.
+9. Accessibility Report menampilkan konflik awal, cakupan pola, warning, dan hasil/status masing-masing mode.
+10. Guru mengunduh satu PNG repair normal; download valid tetap tersedia jika evaluasi dilewati/gagal.
 
 Siswa memakai materi hasil perbaikan tanpa harus membuka aplikasi.
 
@@ -123,15 +127,21 @@ Siswa memakai materi hasil perbaikan tanpa harus membuka aplikasi.
 
 ```mermaid
 flowchart TD
-    A[Upload gambar atau contoh] --> B[Periksa: ekstraksi warna dan simulasi CVD]
-    B --> C[Pahami: AI memahami gambar dan legenda]
-    C --> D[Konfirmasi dan koreksi pengguna]
-    D --> E[Perbaiki: pattern engine]
-    E --> F[Preview dan custom pola]
-    F --> G[Uji: evaluasi visual sebelum dan sesudah]
-    G --> H[Ringkasan dan download PNG]
-    F -->|Ubah pola| E
+    A[Upload satu visual] --> B[Ekstraksi warna dan empat simulasi]
+    B --> C[Deteksi konflik dan AI semantic analysis]
+    C --> D[Konfirmasi dan koreksi guru]
+    D --> E{Satu visual dan 1-4 kategori valid?}
+    E -->|Tidak| X[Analisis dan warning batas MVP]
+    E -->|Ya| F[Repair normal dengan pola]
+    F --> G[Custom pattern dan 4 pasang preview]
+    G -->|Ubah pola| F
     D -->|Koreksi warna| B
+    G --> H[AI prepare soal dan kunci dari sumber]
+    H --> I[Guru review kunci]
+    I --> J[Evaluate otomatis 4 mode]
+    J --> K[Report per mode]
+    K --> L[Download satu PNG normal]
+    G -->|Download tanpa uji| L
 ```
 
 ---
@@ -154,7 +164,7 @@ flowchart TD
 - Kelompokkan warna dominan dengan color quantization (Median Cut sebagai baseline). Gunakan sampel/resolusi analisis yang masuk akal; tidak perlu pipeline ML.
 - Gunakan model Machado untuk protan, deutan, dan tritan; implementasikan dengan domain warna/konversi yang sesuai referensi model. Grayscale merupakan mode tambahan, bukan simulasi klinis akromatopsia.
 - MVP memakai simulasi tingkat maksimum sebagai pendekatan konservatif; jelaskan tingkat persepsi individu dapat berbeda.
-- Pengguna dapat berpindah antara Normal / Protan / Deutan / Tritan / Hitam-putih.
+- Keempat mode uji adalah `protan`, `deutan`, `tritan`, `grayscale` (grayscale adalah pengujian tambahan tanpa warna, bukan diagnosis). Guru tidak memilih jenis CVD siswa; pemilih mode hanya mengubah preview. Sistem menyiapkan empat simulasi sumber dan empat simulasi repair dari satu hasil repair normal; boleh menghasilkan secara bertahap sesuai kebutuhan memori, tanpa mengubah cakupan empat mode. Pengguna dapat berpindah antara Normal / Protan / Deutan / Tritan / Hitam-putih untuk preview.
 
 **Acceptance:** warna sumber tidak berubah; mode berbeda menghasilkan hasil yang sesuai fixture referensi; dimensi dan alpha dipertahankan pada output simulasi; tidak ada klaim hasil sebagai persepsi aktual setiap individu.
 
@@ -180,7 +190,7 @@ flowchart TD
 ### FR-05 — AI Semantic Analysis
 
 - Endpoint server menerima gambar dan hasil analisis warna yang relevan.
-- Gemini Vision mengidentifikasi jenis visual, legenda, makna warna, jenis data (categorical/ordinal/unknown), urutan jika terlihat, serta penjelasan konflik dalam bahasa Indonesia yang mudah dipahami.
+- Model multimodal melalui CosmosIn mengidentifikasi jenis visual, legenda, makna warna, jenis data (categorical/ordinal/unknown), urutan jika terlihat, serta penjelasan konflik dalam bahasa Indonesia yang mudah dipahami.
 - Warna yang dipetakan merujuk pada ID warna yang diberikan, bukan nilai warna baru yang ditebak oleh model.
 - AI boleh menyarankan jenis penanda, tetapi tidak memodifikasi piksel atau menjadi sumber angka ΔE.
 - Bila legenda tidak jelas, tandai ketidakpastian dan minta pengguna mengoreksi. Jangan mengarang kategori, nilai data atau urutan.
@@ -194,13 +204,14 @@ flowchart TD
 - Guru dapat mengoreksi label dan urutan serta menentukan apakah hasil pemetaan benar.
 - Warna dekoratif, latar belakang, teks, dan elemen yang tidak membawa kategori harus dapat dikecualikan.
 - Perbaikan hanya berjalan menggunakan pemetaan yang dikonfirmasi; jangan menambahkan pola pada semua warna dominan secara buta.
+- MVP mendukung satu visual per gambar, dengan 1–4 kategori informasi yang dipetakan berdasarkan warna; swatch teks, latar, grid dan dekorasi tidak dihitung sebagai kategori. Jika lebih dari empat kategori informasi atau terdapat beberapa visual, tetap izinkan analisis warna dan simulasi, tetapi blok repair otomatis dan jelaskan batasan. Jangan mengecualikan kategori informasi yang sebenarnya relevan hanya untuk melewati batas.
 
 **Acceptance:** perubahan label/urutan disimpan dalam state sesi dan diteruskan ke engine; mapping ambigu tidak boleh diam-diam diperlakukan benar; data ordinal tanpa urutan yang valid belum dapat diproses sebagai ordinal.
 
 ### FR-07 — Automatic Image Repair
 
 - Lakukan color masking/thresholding menggunakan warna yang sudah dikonfirmasi. Gunakan connected components jika benar-benar diperlukan untuk mencegah area salah sasaran.
-- Data categorical: gunakan pola berbeda, misalnya diagonal, titik, horizontal, atau crosshatch.
+- Data categorical: 1–4 kategori, gunakan jenis pola yang berbeda untuk setiap kategori (`diagonal`, `dots`, `horizontal`, `crosshatch`). Jangan menggunakan ulang jenis pola untuk kategori berbeda. Blok repair otomatis bila lebih dari empat kategori informasi.
 - Data ordinal: gunakan satu keluarga arsir dengan kerapatan meningkat sesuai urutan yang dikonfirmasi.
 - Pertahankan warna sumber, geometri, posisi, angka, dan teks; tambahkan pola sebagai layer/mask, bukan menggambar ulang seluruh visual.
 - Terapkan pola pada kategori dan legenda secara konsisten; lindungi piksel teks, garis batas dan area bukan target. Jika pemisahan tidak aman (misalnya warna teks sama dengan fill), jangan mengklaim hasil sempurna; tampilkan preview/peringatan dan izinkan koreksi pilihan warna atau batalkan.
@@ -210,9 +221,9 @@ flowchart TD
 
 ### FR-08 — Custom Pattern Editor
 
-- Pengguna dapat mengganti jenis pola dan jarak/kerapatan secara sederhana.
+- Pengguna dapat mengganti jenis pola dan jarak/kerapatan secara sederhana. Untuk 1–4 kategori, guru bebas memilih dari empat pola; tidak harus menggunakan semuanya. Untuk categorical, cegah konfigurasi final dengan jenis pola duplikat; ordinal menggunakan satu keluarga pola dan kerapatan sesuai urutan.
 - Perubahan diterapkan pada gambar dan legenda; gunakan properti pola yang sama untuk satu kategori.
-- Cegah atau beri peringatan pada penanda yang sama untuk kategori yang perlu dibedakan; pada ordinal jaga urutan kerapatan.
+- Cegah konfigurasi final dengan jenis pola sama pada kategori categorical; tampilkan warning yang dapat diperbaiki guru. Pada ordinal jaga urutan kerapatan.
 - Berikan reset ke rekomendasi awal. Tidak perlu drag-and-drop layer atau drawing editor.
 
 **Acceptance:** mengganti pola memperbarui preview tanpa mengubah gambar asli; legenda mengikuti konfigurasi; reset memulihkan konfigurasi awal; perubahan pola membatalkan hasil Uji Terbaca sebelumnya.
@@ -221,8 +232,9 @@ flowchart TD
 
 - AI membuat 2–3 pertanyaan terkait informasi yang benar-benar bergantung pada warna/legenda dari gambar asli, beserta kunci jawaban. Jangan membuat pertanyaan yang membutuhkan pengetahuan di luar visual.
 - Kunci berasal dari gambar asli/mapping terkonfirmasi; pengguna dapat meninjau kebenaran kunci. Jika kunci tidak dapat dipastikan, tandai hasil sebagai belum valid.
-- Evaluasi pertanyaan yang sama pada gambar sebelum dan setelah perbaikan dengan **mode CVD yang sama**. Default: mode konflik yang dipilih pengguna atau konflik terberat menurut metrik. Bila tidak ada konflik, uji boleh dilakukan sebagai pemeriksaan tambahan tanpa klaim peningkatan.
-- Pisahkan pembuatan kunci dari panggilan penjawaban; jangan sertakan kunci, mapping internal atau jawaban sebelumnya pada prompt penjawaban. Jangan memberi informasi tambahan dari luar gambar yang sedang diuji. Bandingkan jawaban terhadap kunci dengan aturan sederhana atau penilaian AI yang terdokumentasi apabila jawaban tidak identik secara literal.
+- Siapkan satu set 2–3 pertanyaan dari sumber normal dan mapping terkonfirmasi. Guru meninjau/mengoreksi pertanyaan dan kunci sebelum uji. Ketika guru menjalankan Uji Terbaca, sistem otomatis mengevaluasi keempat mode (`protan`, `deutan`, `tritan`, `grayscale`) menggunakan set yang sama, termasuk ketika tidak ada konflik terdeteksi. Before dan after pada setiap mode memakai simulasi identik dan skala sebanding. Tidak perlu memilih target CVD. Uji bersifat opsional untuk download, tetapi dukungan seluruh mode wajib tersedia pada MVP.
+- Satu E2E lengkap yang berhasil tanpa retry memakai 10 panggilan AI: 1 analyze + 1 prepare + 8 penjawaban (2 per mode). Orkestrasi empat evaluate di client, satu mode per request, disarankan berurutan untuk mengurangi risiko rate limit. Setiap mode punya status pending/running/success/error dan hasil sendiri. Retry eksplisit hanya pada mode gagal; keberhasilan mode lain tidak dihapus. Jangan tampilkan kegagalan sebagai skor nol. Jika sumber/mapping/pola/kunci berubah, abaikan/batalkan hasil kedaluwarsa.
+- Pisahkan pembuatan kunci dari panggilan penjawaban; jangan sertakan kunci, mapping internal atau jawaban sebelumnya pada prompt penjawaban. Jangan memberi informasi tambahan dari luar gambar yang sedang diuji. Bandingkan jawaban terhadap kunci di server dengan normalisasi sederhana (Unicode, whitespace, kapitalisasi; pertahankan angka, satuan, dan operator bermakna). Exact match setelah normalisasi = correct; jawaban berbeda = incorrect; null/tidak dapat ditentukan = uncertain. Tidak ada panggilan AI penilai tambahan; keterbatasan sinonim dicatat.
 - Tampilkan jawaban, status benar/salah/tidak dapat ditentukan, jumlah benar dari jumlah pertanyaan yang valid, mode simulasi dan keterbatasan.
 - Tidak ada target peningkatan wajib pada setiap gambar. Hasil yang tidak membaik tetap harus ditampilkan. Uji Terbaca merupakan heuristik AI, bukan hasil pengujian terhadap siswa CVD.
 
@@ -231,14 +243,14 @@ flowchart TD
 ### FR-10 — Before/After Comparison
 
 - Perbandingan visual asli dan perbaikan dengan side-by-side atau slider.
-- Sediakan mode Normal/Protan/Deutan/Tritan/Grayscale pada kedua gambar dengan mode yang sama.
+- Sediakan mode Normal/Protan/Deutan/Tritan/Grayscale pada kedua gambar dengan mode yang sama. Keempat mode uji adalah `protan`, `deutan`, `tritan`, `grayscale` (grayscale adalah pengujian tambahan tanpa warna, bukan diagnosis). Guru tidak memilih jenis CVD siswa; pemilih mode hanya mengubah preview. Sistem menyiapkan empat simulasi sumber dan empat simulasi repair dari satu hasil repair normal; boleh menghasilkan secara bertahap sesuai kebutuhan memori, tanpa mengubah cakupan empat mode.
 - Label jelas mengenai versi gambar dan mode simulasi; akses keyboard tersedia.
 
 **Acceptance:** perbandingan memakai versi sumber dan hasil terbaru dengan mode identik; slider atau tombol dapat digunakan dengan keyboard; perbandingan tidak mengganti gambar sumber.
 
 ### FR-11 — Accessibility Report (on-screen)
 
-- Ringkas mode CVD yang memiliki potensi konflik, pasangan warna, jumlah kategori dengan pola, kategori/area yang belum ditangani, serta hasil Uji Terbaca jika tersedia.
+- Ringkas mode CVD yang memiliki potensi konflik, pasangan warna, jumlah kategori dengan pola, kategori/area yang belum ditangani, serta hasil Uji Terbaca untuk masing-masing empat mode. Tampilkan status pending/running/success/error per mode; hasil mode sukses tetap tersedia bila mode lain gagal.
 - Bedakan konflik warna mentah dari konflik yang **telah diberikan penanda tambahan**. Penambahan pola tidak otomatis menghilangkan kemiripan warna/ΔE.
 - Jangan menghasilkan satu skor aksesibilitas absolut yang tidak memiliki definisi; jangan menampilkan angka simulasi sebagai hasil nyata. Status perbaikan hanya berdasarkan kondisi yang benar-benar diperiksa sistem.
 
@@ -289,13 +301,13 @@ Semua tahap wajib memiliki state loading, error, empty/unsupported, dan success 
 | Image processing | Canvas API (ImageData, CanvasPattern, export PNG) |
 | Color processing | Culori (konversi warna/ΔE sesuai API versi yang dipakai) |
 | State | Zustand (state sesi minimal, tanpa persist) |
-| AI | Google Gemini Vision, SDK `@google/genai` |
+| AI | CosmosIn (OpenAI-compatible), SDK `openai` |
 | Validation | Zod |
 | Testing | Vitest (unit), Playwright (E2E) |
 | Deployment | Vercel |
 | Version control | Git & GitHub, satu repository publik untuk lomba |
 
-Gunakan model multimodal Gemini yang tersedia pada project API dan mendukung structured output; ID model tidak di-hardcode tanpa verifikasi. Simpan model dan secret dalam environment variable server. Jangan memasukkan API key ke `NEXT_PUBLIC_*`, bundle browser, atau repository.
+CosmosIn melalui SDK `openai` (Chat Completions OpenAI-compatible), model `deepseek-v4.1-flash` melalui env server `COSMOS_MODEL`, `COSMOS_BASE_URL=https://api.cosmosin.io/v1`, dan `COSMOS_API_KEY`. Strict JSON Schema + validasi Zod runtime; non-streaming, retry otomatis 0, timeout 45.000 ms per panggilan, max output 2048 token. Tidak ada fallback model/provider. POC kemampuan berhasil; live route analyze masih perlu debugging (HTTP 502 AI_INVALID_RESPONSE pada smoke awal). Batas AI: 1.5 MiB (1.572.864 byte) per gambar, 3.5 MiB (3.670.016 byte) total body multipart aktual, 64 KiB (65.536 byte) total field teks/metadata UTF-8. Ini bukan batas gambar sumber/export. Client menyiapkan salinan AI dengan legenda/pola tetap terbaca; server membatasi stream aktual dan memeriksa MIME/signature, bukan decode penuh. Jangan memasukkan key ke `NEXT_PUBLIC_*`, bundle browser atau repo.
 
 Tidak ada database, Redis, storage eksternal, service backend terpisah, atau Docker wajib.
 
@@ -312,20 +324,20 @@ flowchart TD
     S --> UI
     UI --> A[Next.js POST /api/analyze]
     UI --> V[Next.js POST /api/verify]
-    A --> G[Gemini Vision API]
+    A --> G[CosmosIn Chat Completions]
     V --> G
     UI --> E[PNG export lokal]
 ```
 
 - Client: decode gambar, simulasi, ΔE, segmentasi, pemberian pola, preview, export.
-- Server: validasi request, panggil Gemini, validasi/normalisasi response. Tidak menyimpan file secara permanen.
+- Server: validasi request, panggil CosmosIn, validasi/normalisasi response. Tidak menyimpan file secara permanen.
 - Gambar yang diperlukan AI dikirim melalui server ke penyedia AI. Klaim seluruh proses lokal tidak benar; jelaskan ini pada UI sebelum analisis AI.
 
 ---
 
 ## 8. Kontrak antarmodul (baseline integrasi)
 
-Kontrak berikut adalah usulan baseline teknis untuk disepakati sekali sebelum pengembangan paralel. Simpan satu sumber tipe bersama, misalnya `src/types/` atau `src/contracts/` (pilih salah satu). Nama internal boleh mengikuti repo yang sudah ada; jangan membuat tipe duplikat per modul. Perubahan kontrak harus diketahui anggota yang terdampak.
+Kontrak berikut adalah baseline teknis v1.1; rincian HTTP dan aturan integrasi mengikuti CONTRACTS.md. Shared types inti dipertahankan. Gunakan sumber tipe bersama yang sudah ada: `src/types/index.ts`. Nama internal boleh mengikuti repo yang sudah ada; jangan membuat tipe duplikat per modul. Perubahan kontrak harus diketahui anggota yang terdampak.
 
 ### 8.1 Shared types minimum
 
@@ -418,6 +430,8 @@ Gunakan dua endpoint inti, `multipart/form-data` untuk gambar dan metadata JSON,
 
 Pemisahan prepare/evaluate di satu route memungkinkan kunci ditinjau sebelum uji. Pada evaluate, server menerima kunci untuk evaluasi tetapi **tidak memasukkan kunci pada panggilan model penjawab**. Untuk evaluasi, before dan after dijawab secara terpisah dengan pertanyaan identik. Tidak ada session storage server; klien membawa data yang dibutuhkan setiap request.
 
+Field HTTP persis mengikuti `CONTRACTS.md`; evaluate tetap satu mode per request. Satu E2E lengkap yang berhasil tanpa retry memakai 10 panggilan AI: 1 analyze + 1 prepare + 8 penjawaban (2 per mode). Orkestrasi empat evaluate di client, satu mode per request, disarankan berurutan untuk mengurangi risiko rate limit. Setiap mode punya status pending/running/success/error dan hasil sendiri. Retry eksplisit hanya pada mode gagal; keberhasilan mode lain tidak dihapus. Jangan tampilkan kegagalan sebagai skor nol. Jika sumber/mapping/pola/kunci berubah, abaikan/batalkan hasil kedaluwarsa.
+
 Error minimal:
 
 ```json
@@ -433,12 +447,12 @@ Gunakan status HTTP yang sesuai untuk input salah, terlalu besar, limit, kegagal
 
 ### 8.3 State dan invalidation
 
-- `sourceImage` → `colorAnalysis` → `semanticAnalysis` → `confirmedMapping` → `patterns` / `repairResult` → `verificationResult`.
+- `sourceImage` → `colorAnalysis` → `semanticAnalysis` → `confirmedMapping` → `patterns` / `repairResult` → `verificationResults`.
 - Ganti gambar: reset semua hasil turunan.
-- Ubah warna: invalidasi color conflicts, semantic/mapping, repair, verification sesuai perubahan.
-- Ubah mapping: invalidasi repair dan verification; gunakan hasil color analysis yang sama jika input warnanya tidak berubah.
-- Ubah pola: invalidasi repair dan verification; hitung ulang repair dari sumber asli.
-- Ubah mode preview saja tidak mengubah mapping atau repair. Jika mode uji berbeda, hasil lama harus tetap berlabel mode lama dan tidak ditampilkan sebagai hasil mode baru.
+- Ubah warna: hitung ulang color conflicts; invalidasi semantic/mapping, pola, repair, pertanyaan/kunci dan seluruh hasil verification.
+- Ubah mapping: invalidasi pola, repair, pertanyaan/kunci dan seluruh hasil verification; gunakan hasil color analysis yang sama jika swatch tidak berubah.
+- Ubah pola: invalidasi repair dan seluruh hasil/status verification; hitung ulang repair dari sumber asli. Pertanyaan/kunci tetap jika sumber dan mapping tidak berubah.
+- `verificationResults: Partial<Record<SimulatedMode, VerificationResult>>` pada state client, plus status/error per mode. Ubah kunci/pertanyaan: reset seluruh hasil dan review ulang. Ubah mode preview tidak membatalkan hasil uji; mode uji otomatis empat mode.
 - Abaikan respons async yang berasal dari gambar atau revisi state yang sudah tidak aktif. Tidak perlu event bus atau state machine library.
 
 ---
@@ -448,7 +462,7 @@ Gunakan status HTTP yang sesuai untuk input salah, terlalu besar, limit, kegagal
 | Anggota | Ownership | Deliverable |
 |---|---|---|
 | Orang 1 | Image Processing & Color Analysis (FR-01 bagian decode, FR-02–04, fungsi simulasi bersama) | Fungsi ekstraksi warna, simulasi, deteksi konflik, picker helper, unit test. |
-| Orang 2 | AI Semantic Analysis & Verification (FR-05, FR-09) | Dua API route, Gemini integration, Zod schema, prompt dan fixture test, error handling. |
+| Orang 2 | AI Semantic Analysis & Verification (FR-05, FR-09) | Dua API route, CosmosIn integration, Zod schema, prompt dan fixture test, error handling. |
 | Orang 3 | Image Repair & Pattern Engine (FR-07–08, FR-12) | Color masking, render pola, aturan ordinal, sinkronisasi legenda, export PNG, unit test. |
 | Orang 4 | Frontend, UI/UX & System Integration (FR-01 UI, FR-06, FR-08 UI, FR-10–13) | UI wizard, state, integrasi, laporan, E2E, deployment jika diizinkan. |
 
@@ -495,7 +509,7 @@ Gunakan struktur yang sudah ada bila sesuai. Jangan memindahkan seluruh repo han
 ### 10.1 Privasi dan keamanan
 
 - Tidak ada login, database, penyimpanan dokumen permanen atau histori lintas sesi. State sesi berada di memori browser; refresh boleh mereset data.
-- Sebelum mengirim gambar ke Gemini, beri penjelasan yang jelas bahwa gambar dikirim ke layanan AI pihak ketiga. Jangan mengklaim kebijakan retensi penyedia tanpa memverifikasi kebijakan API yang digunakan.
+- Sebelum mengirim gambar ke CosmosIn, beri penjelasan yang jelas bahwa gambar dikirim ke layanan AI pihak ketiga. Jangan mengklaim kebijakan retensi penyedia tanpa memverifikasi kebijakan API yang digunakan.
 - Hindari gambar berisi data pribadi siswa, informasi rahasia, atau materi tanpa izin. Jangan log isi gambar, prompt sensitif, API key, atau base64.
 - Validasi MIME, decode di client, ukuran request, schema dan referensi ID di server. Perlakukan tulisan pada gambar sebagai data, bukan instruksi kepada AI.
 - Batasi payload, panggilan ulang, dan kuota penyedia; request tidak boleh berjalan berulang tanpa tindakan pengguna. Gunakan pengamanan endpoint publik yang proporsional; jangan menambah infrastruktur baru hanya untuk rate limiting tanpa persetujuan.
@@ -537,13 +551,15 @@ Gunakan struktur yang sudah ada bila sesuai. Jangan memindahkan seluruh repo han
 ### 11.2 E2E wajib
 
 - Happy path: contoh/upload valid → Periksa → Pahami → konfirmasi → Perbaiki → Uji → download PNG.
+- Fixture 2 dan 4 kategori: custom pattern berbeda, reset, legenda konsisten; fixture 5+ kategori dan multi-visual hanya analisis/simulasi dengan warning, repair diblok.
+- Empat mode otomatis: set soal sama, hasil/status per mode, kegagalan satu mode tidak menghapus lainnya; retry hanya mode gagal; perubahan pola membatalkan seluruh hasil.
 - File tidak valid ditolak tanpa crash.
 - Koreksi warna dan ubah pola memperbarui hasil serta membatalkan hasil uji lama.
 - Kegagalan AI menampilkan error dan retry tanpa menghapus sumber. Uji gagal tidak menghalangi download hasil repair yang valid dengan penjelasan status.
 - Visual yang tidak dapat diperbaiki secara aman diberi peringatan, bukan hasil lulus palsu.
 - Navigasi keyboard untuk kontrol inti.
 
-Gunakan mock AI deterministik untuk E2E otomatis, dan lakukan smoke test terpisah dengan API asli. Jangan menjadikan hasil mock sebagai bukti kualitas Gemini.
+Gunakan mock AI deterministik untuk E2E otomatis, dan lakukan smoke test terpisah dengan API asli. Jangan menjadikan hasil mock sebagai bukti kualitas CosmosIn.
 
 ### 11.3 Dataset uji dan metrik
 
@@ -580,7 +596,7 @@ MVP dianggap selesai ketika:
 - [ ] AI semantic dan Uji Terbaca menggunakan API asli pada jalur produksi serta output divalidasi.
 - [ ] Guru dapat mengoreksi warna/label/urutan dan pengaturan pola.
 - [ ] Output mempertahankan informasi visual dalam batas dukungan yang diuji dan legenda konsisten.
-- [ ] Uji Terbaca memakai pertanyaan yang sama, tidak menerima bocoran kunci pada panggilan penjawab, dan hasil ditampilkan jujur.
+- [ ] Uji Terbaca otomatis empat mode memakai pertanyaan yang sama, tidak menerima bocoran kunci pada panggilan penjawab, hasil/status per mode ditampilkan jujur; download tidak terblokir.
 - [ ] Typecheck, lint, unit test, build, dan E2E relevan lulus; blocker yang belum selesai dilaporkan.
 - [ ] Repo tidak memuat API key atau data pribadi; README memuat cara setup, menjalankan test, scope dan keterbatasan.
 - [ ] Website dapat diakses melalui URL deployment publik setelah disetujui pemilik proyek.
@@ -609,7 +625,7 @@ Tambahkan test yang relevan dan jalankan pemeriksaan yang diperlukan.
 Laporkan perubahan, file, hasil test, dan keterbatasan yang tersisa.
 ```
 
-Contoh task Orang 1: implementasikan FR-03 berdasarkan hasil swatch dan fungsi simulasi yang sudah tersedia; jangan membuat UI, API, atau engine repair. Contoh task Orang 3: implementasikan FR-07 dari kontrak yang sudah disepakati; jangan mengubah prompt Gemini atau state global.
+Contoh task Orang 1: implementasikan FR-03 berdasarkan hasil swatch dan fungsi simulasi yang sudah tersedia; jangan membuat UI, API, atau engine repair. Contoh task Orang 3: implementasikan FR-07 dari kontrak yang sudah disepakati; jangan mengubah prompt CosmosIn atau state global.
 
 ---
 
@@ -619,8 +635,8 @@ Ini bukan daftar fitur tambahan. Ini adalah parameter implementasi yang belum di
 
 - Batas ukuran/resolusi gambar input dan salinan AI, sesuai limit hosting/provider.
 - Nilai ambang ΔE, toleransi masking, jumlah swatch maksimum yang wajar, dan fixture referensi.
-- Shared types, payload endpoint, serta pilihan mode uji default.
-- ID model Gemini yang tersedia, kuota, dan timeout yang realistis.
+- Shared types inti tetap, payload mengikuti CONTRACTS v1.1; koordinasikan perubahan state per mode dan wrapper internal sebelum merge.
+- Provider/model/timeout sudah ditetapkan di §7; verifikasi kuota dan live endpoint, ukur latency aktual.
 - Jenis diagram datar yang lolos POC (khususnya diagram garis/area kecil) serta fallback jika tidak aman.
 
 Bila parameter belum dikunci, anggota boleh membuat POC lokal/fixture tanpa mengubah kontrak produksi. Jangan menjadikannya alasan untuk menambah arsitektur baru.
