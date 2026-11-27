@@ -69,11 +69,18 @@ describe('recommendPatterns ordinal', () => {
     expect(warnings).not.toEqual([]);
   });
 
-  it('memperingatkan tingkat rapat berdekatan dan menolak yang melebihi rentang', () => {
+  it('tingkat rapat diperingatkan oleh validasi, dan yang melebihi rentang ditolak', () => {
     const many = ordinal(19);
     const dense = recommendPatterns(many, swatchesFor(many), 'ordinal');
     expect(new Set(dense.configs.map((c) => c.spacingPx)).size).toBe(19);
-    expect(dense.warnings).toHaveLength(1);
+    expect(dense.warnings).toEqual([]);
+    const { warnings } = validatePatternConfigs(dense.configs, many, swatchesFor(many), 'ordinal');
+    expect(warnings).toHaveLength(1);
+    expect(warnings[0]).toContain('sulit dibedakan');
+
+    const seven = ordinal(7); // selisih tepat 3 px
+    const fine = recommendPatterns(seven, swatchesFor(seven), 'ordinal');
+    expect(validatePatternConfigs(fine.configs, seven, swatchesFor(seven), 'ordinal').warnings).toEqual([]);
 
     const tooMany = ordinal(20);
     expect(recommendPatterns(tooMany, swatchesFor(tooMany), 'ordinal').configs).toEqual([]);
@@ -136,6 +143,9 @@ describe('validatePatternConfigs', () => {
     expect(check([config('a', 8), config('b', 8)], 'ordinal').warnings).toHaveLength(1);
     expect(check([config('a', 10.4), config('b', 10.2)], 'ordinal').warnings).toHaveLength(1);
     expect(check([config('a', 16), config('b', 8, 'dots')], 'ordinal').warnings).toHaveLength(1);
+    expect(check([config('a', 10), config('b', 8)], 'ordinal').warnings).toEqual([
+      'Selisih jarak arsir kurang dari 3 px sehingga sulit dibedakan: "a" → "b".',
+    ]);
   });
 });
 

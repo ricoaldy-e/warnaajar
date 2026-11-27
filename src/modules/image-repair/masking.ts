@@ -39,6 +39,10 @@ export interface CategoryMask {
   areas: number[];
   /** Jumlah piksel yang cocok per target sebelum tepi dibuang. */
   pixels: number[];
+  /** Estimasi tebal rata-rata area cocok per target (px): 2 × luas / piksel tepi. 0 jika tidak ada. */
+  thickness: number[];
+  /** Jumlah piksel dengan alpha > 0. */
+  opaquePixels: number;
   /** Indeks target yang menempati mayoritas piksel tepi gambar (kemungkinan latar), atau -1. */
   backgroundTarget: number;
 }
@@ -59,6 +63,7 @@ export function buildCategoryMask(
   const refs = swatchRefs(swatches, targetIds);
   const raw = new Int16Array(width * height).fill(-1);
   const pixels = targetIds.map(() => 0);
+  let opaquePixels = 0;
 
   // Gambar warna datar punya sedikit warna unik, jadi jarak dihitung sekali per warna.
   const entryOf = new Map<number, number>();
@@ -68,6 +73,7 @@ export function buildCategoryMask(
   for (let i = 0; i < raw.length; i++) {
     const p = i * 4;
     if (data[p + 3] === 0) continue;
+    opaquePixels++;
     const rgb = (data[p] << 16) | (data[p + 1] << 8) | data[p + 2];
     if (rgb !== lastRgb) {
       lastRgb = rgb;
@@ -101,6 +107,7 @@ export function buildCategoryMask(
   const backgroundTarget = borderCounts.findIndex((n) => n > BACKGROUND_BORDER_SHARE * borderTotal);
 
   let mask = raw;
+  const interior = targetIds.map(() => 0); // piksel yang selamat dari erosi pertama
   for (let pass = 0; pass < inset; pass++) {
     const prev = mask;
     mask = new Int16Array(raw.length).fill(-1);
@@ -110,13 +117,16 @@ export function buildCategoryMask(
         const t = prev[i];
         if (t >= 0 && prev[i - 1] === t && prev[i + 1] === t && prev[i - width] === t && prev[i + width] === t) {
           mask[i] = t;
+          if (pass === 0) interior[t]++;
         }
       }
     }
   }
   const areas = targetIds.map(() => 0);
   for (const t of mask) if (t >= 0) areas[t]++;
-  return { mask, areas, pixels, backgroundTarget };
+  // Strip selebar w punya ±2 piksel tepi per w piksel, sehingga rumus ini mendekati w.
+  const thickness = pixels.map((n, t) => (n === 0 ? 0 : (2 * n) / (n - interior[t])));
+  return { mask, areas, pixels, thickness, opaquePixels, backgroundTarget };
 }
 
 /** Pasangan [targetId, swatchId lain] yang rentang toleransinya tumpang tindih (jarak ≤ 2× toleransi). */

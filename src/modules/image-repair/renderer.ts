@@ -5,7 +5,10 @@ import {
   DEFAULT_MASK_TOLERANCE,
   MASK_EDGE_INSET_PX,
   MAX_PATTERN_SCALE,
+  MIN_COLOR_PIXEL_SHARE,
   MIN_MASK_AREA_PX,
+  MIN_THICKNESS_SPACING_RATIO,
+  MIN_USABLE_MASK_SHARE,
   PATTERN_DOT_RADIUS_PX,
   PATTERN_INK_DARK,
   PATTERN_INK_LIGHT,
@@ -15,9 +18,10 @@ import {
 import { buildCategoryMask, findOverlappingSwatches } from './masking';
 import { validatePatternConfigs } from './patterns';
 
-/** 1 sampai sisi terpanjang PATTERN_SCALE_REFERENCE_PX, lalu linear, maksimum MAX_PATTERN_SCALE. */
+/** 1 sampai sisi terpanjang PATTERN_SCALE_REFERENCE_PX, lalu naik akar kuadrat, maksimum MAX_PATTERN_SCALE. */
 export function patternScale(width: number, height: number): number {
-  return Math.min(MAX_PATTERN_SCALE, Math.max(1, Math.max(width, height) / PATTERN_SCALE_REFERENCE_PX));
+  const ratio = Math.max(width, height) / PATTERN_SCALE_REFERENCE_PX;
+  return Math.min(MAX_PATTERN_SCALE, Math.max(1, Math.sqrt(ratio)));
 }
 
 /** Pola dijangkar ke titik (0,0) gambar agar area dan legenda memakai fase yang sama. */
@@ -67,8 +71,13 @@ export function repairImage(
   const name = (id: string) => categories.find((c) => c.colorId === id)?.label ?? id;
   const targetIds = configs.map((c) => c.colorId);
   const scale = patternScale(width, height);
-  const inset = Math.max(1, Math.round(MASK_EDGE_INSET_PX * scale));
-  const { mask, areas, pixels, backgroundTarget } = buildCategoryMask(source, swatches, targetIds, tolerance, inset);
+  const { mask, areas, pixels, thickness, opaquePixels, backgroundTarget } = buildCategoryMask(
+    source,
+    swatches,
+    targetIds,
+    tolerance,
+    MASK_EDGE_INSET_PX,
+  );
 
   for (const [a, b] of findOverlappingSwatches(swatches, targetIds, tolerance)) {
     warnings.push(`Warna "${name(a)}" terlalu mirip dengan warna "${name(b)}"; pola bisa salah sasaran. Periksa preview.`);
@@ -80,22 +89,10 @@ export function repairImage(
     );
   }
 
-  const minArea = MIN_MASK_AREA_PX * scale * scale;
   const hexOf = new Map(swatches.map((s) => [s.id, s.hex]));
-  const pens = configs.map((c, k) => {
-    if (areas[k] === 0) {
-      warnings.push(
-        pixels[k] > 0
-          ? `Warna "${name(c.colorId)}" hanya ditemukan sebagai garis atau area tipis; pola tidak diterapkan.`
-          : `Warna "${name(c.colorId)}" tidak ditemukan pada gambar; pola tidak diterapkan.`,
-      );
-      return null;
-    }
-    if (areas[k] < minArea) {
-      warnings.push(`Area warna "${name(c.colorId)}" sangat kecil (${areas[k]} px); pola mungkin tidak terlihat jelas.`);
-    }
-    return { inside: patternAt(c.kind, c.spacingPx, scale), ink: inkFor(hexOf.get(c.colorId) ?? '') };
-  });
+  const pens = configs.map((c, k) =>
+    areas[k] > 0 ? { inside: patternAt(c.kind, c.spacingPx, scale), ink: inkFor(hexOf.get(c.colorId) ?? '') } : null,
+  );
 
   const { data } = image;
   const inked = configs.map(() => 0);
@@ -108,6 +105,27 @@ export function repairImage(
       inked[mask[i]]++;
     }
   }
+
+  // Satu warning per warna, berdasarkan piksel pola yang benar-benar tergambar.
+  const minArea = MIN_MASK_AREA_PX * scale * scale;
+  configs.forEach(({ colorId, spacingPx }, k) => {
+    const label = `"${name(colorId)}"`;
+    if (pixels[k] === 0) {
+      warnings.push(`Warna ${label} tidak ditemukan pada gambar; pola tidak diterapkan.`);
+    } else if (inked[k] === 0) {
+      warnings.push(`Warna ${label} hanya ditemukan sebagai garis atau area tipis; pola tidak diterapkan.`);
+    } else if (areas[k] < minArea) {
+      warnings.push(`Area warna ${label} sangat kecil (${areas[k]} px); pola mungkin tidak terlihat jelas.`);
+    } else if (areas[k] < MIN_USABLE_MASK_SHARE * pixels[k] || pixels[k] < MIN_COLOR_PIXEL_SHARE * opaquePixels) {
+      warnings.push(
+        `Pola warna ${label} tidak merata: sebagian besar areanya terlalu tipis, terpecah, atau bergradasi. Periksa preview.`,
+      );
+    } else if (thickness[k] < MIN_THICKNESS_SPACING_RATIO * Math.round(spacingPx * scale)) {
+      warnings.push(
+        `Area warna ${label} lebih sempit daripada jarak polanya sehingga pola tampak terputus-putus. Periksa preview.`,
+      );
+    }
+  });
 
   return { image, appliedColorIds: targetIds.filter((_, k) => inked[k] > 0), warnings };
 }

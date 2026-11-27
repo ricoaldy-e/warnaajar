@@ -141,6 +141,77 @@ describe('repairImage perilaku lain', () => {
     expect(result.warnings.find((w) => w.includes('"Hilang"'))).toContain('tidak ditemukan');
   });
 
+  it('warna tanpa piksel pola tidak disebut "sangat kecil"', () => {
+    const { image, swatches, categories } = chartFixture();
+    fillRect(image, [52, 37, 6, 6], '#E91E63'); // sisa 2×2 setelah tepi dibuang, jatuh di sela garis diagonal
+    swatches.push({ id: 'tiny', hex: '#E91E63' });
+    categories.splice(0, 1, { colorId: 'tiny', label: 'Kecil', included: true, order: null });
+    const { configs } = recommendPatterns(categories, swatches, 'categorical');
+    const result = repairImage(image, swatches, categories, 'categorical', configs);
+    expect(result.appliedColorIds).not.toContain('tiny');
+    expect(result.warnings.filter((w) => w.includes('"Kecil"'))).toEqual([
+      'Warna "Kecil" hanya ditemukan sebagai garis atau area tipis; pola tidak diterapkan.',
+    ]);
+  });
+
+  it('memperingatkan pola tidak merata: area terpecah atau porsinya sangat kecil', () => {
+    const swatches = [
+      { id: 'bg', hex: COLORS.background },
+      { id: 'light', hex: COLORS.light },
+    ];
+    const categories = [{ colorId: 'light', label: 'Terpecah', included: true, order: null }];
+    const configs: PatternConfig[] = [{ colorId: 'light', kind: 'diagonal', spacingPx: 6 }];
+    const uneven = (image: ImageData) =>
+      repairImage(image, swatches, categories, 'categorical', configs).warnings.filter((w) => w.includes('tidak merata'));
+
+    const striped = solidImage(80, 40, COLORS.background);
+    fillRect(striped, [2, 2, 14, 14], COLORS.light); // satu blok berpola
+    for (let i = 0; i < 10; i++) fillRect(striped, [20 + i * 4, 2, 2, 20], COLORS.light); // garis 2 px hilang saat erosi
+    expect(uneven(striped)).toHaveLength(1);
+
+    const sparse = solidImage(400, 400, COLORS.background);
+    fillRect(sparse, [2, 2, 14, 14], COLORS.light); // 196 px < 0,2% dari 160.000 px
+    expect(uneven(sparse)).toHaveLength(1);
+
+    const { image, swatches: fixtureSwatches, categories: fixtureCategories } = chartFixture();
+    const { configs: fixtureConfigs } = recommendPatterns(fixtureCategories, fixtureSwatches, 'categorical');
+    expect(
+      repairImage(image, fixtureSwatches, fixtureCategories, 'categorical', fixtureConfigs).warnings.some((w) =>
+        w.includes('tidak merata'),
+      ),
+    ).toBe(false);
+  });
+
+  it('strip 8 px tetap berpola, tetapi diperingatkan jika jauh lebih sempit daripada jarak polanya', () => {
+    const image = solidImage(400, 400, COLORS.background);
+    fillRect(image, [20, 100, 300, 8], COLORS.light);
+    const swatches = [
+      { id: 'bg', hex: COLORS.background },
+      { id: 'light', hex: COLORS.light },
+    ];
+    const categories = [{ colorId: 'light', label: 'Garis', included: true, order: null }];
+    const run = (spacingPx: number) =>
+      repairImage(image, swatches, categories, 'categorical', [{ colorId: 'light', kind: 'diagonal', spacingPx }]);
+
+    const wide = run(20);
+    expect(wide.appliedColorIds).toEqual(['light']);
+    expect(wide.warnings).toEqual([
+      'Area warna "Garis" lebih sempit daripada jarak polanya sehingga pola tampak terputus-putus. Periksa preview.',
+    ]);
+    expect(run(10).warnings).toEqual([]); // 8 px masih ≥ separuh jarak 10 px
+  });
+
+  it('warning ordinal rapat ikut muncul di repairImage', () => {
+    const { image, swatches, categories } = chartFixture();
+    const configs: PatternConfig[] = [
+      { colorId: 'light', kind: 'diagonal', spacingPx: 10 },
+      { colorId: 'dark', kind: 'diagonal', spacingPx: 8 },
+    ];
+    const result = repairImage(image, swatches, categories, 'ordinal', configs);
+    expect(result.appliedColorIds).toEqual(['light', 'dark']);
+    expect(result.warnings.some((w) => w.includes('sulit dibedakan'))).toBe(true);
+  });
+
   it('titik pola dibatasi agar warna fill tetap dominan', () => {
     const image = solidImage(40, 40, COLORS.light);
     const swatches = [{ id: 'light', hex: COLORS.light }];
@@ -199,18 +270,23 @@ describe('deteksi latar dari piksel tepi', () => {
 });
 
 describe('skala pola', () => {
-  it('scale 1 sampai 1000 px, linear, lalu dibatasi', () => {
-    expect([patternScale(500, 800), patternScale(1000, 10), patternScale(2000, 10), patternScale(4096, 4096)]).toEqual([1, 1, 2, 4]);
+  it('scale 1 sampai 1000 px, lalu naik akar kuadrat, dibatasi 2,5', () => {
+    expect(patternScale(500, 800)).toBe(1);
+    expect(patternScale(1000, 10)).toBe(1);
+    expect(patternScale(4000, 10)).toBe(2);
+    expect(patternScale(4096, 4096)).toBeCloseTo(2.024, 3);
+    expect(patternScale(8040, 4800)).toBe(2.5);
   });
 
-  it('gambar 2000 px menggandakan jarak dan ketebalan secara deterministik', () => {
-    const image = solidImage(2000, 40, COLORS.light);
+  it('gambar 4000 px: jarak dan tebal pola ×2, tetapi tepi yang dilindungi tetap 2 px', () => {
+    const image = solidImage(4000, 40, COLORS.light);
     const swatches = [{ id: 'light', hex: COLORS.light }];
     const categories = [{ colorId: 'light', label: null, included: true, order: null }];
     const configs: PatternConfig[] = [{ colorId: 'light', kind: 'horizontal', spacingPx: 10 }];
     const { image: out } = repairImage(image, swatches, categories, 'categorical', configs);
-    for (let y = 4; y < 36; y++) {
-      expect(pixelAt(out, 100, y)[0] === 0).toBe(y % 20 < 4);
+    // Baris 0–1 = tepi 2 px yang dilindungi; mulai baris 2 pola berlaku (jarak 20, tebal 4).
+    for (let y = 0; y < 40; y++) {
+      expect(pixelAt(out, 100, y)[0] === 0).toBe(y >= 2 && y < 38 && y % 20 < 4);
     }
     expect(repairImage(image, swatches, categories, 'categorical', configs).image.data).toEqual(out.data);
   });

@@ -70,10 +70,8 @@ export function recommendPatterns(
         warnings: [`Terlalu banyak tingkat (${included.length}); maksimum ${range + 1} tingkat.`],
       };
     }
+    // Selisih antartingkat yang terlalu kecil diperingatkan oleh validatePatternConfigs.
     const step = steps === 0 ? 0 : range / steps;
-    if (steps > 0 && step < MIN_ORDINAL_STEP_PX) {
-      warnings.push(`${included.length} tingkat membuat selisih kerapatan kecil dan mungkin sulit dibedakan.`);
-    }
     const configs = byOrder(included).map((c, rank) => ({
       colorId: c.colorId,
       kind: ORDINAL_PATTERN_KIND,
@@ -158,11 +156,20 @@ export function validatePatternConfigs(
     if (new Set(ranked.map((r) => r.kind)).size > 1) {
       warnings.push('Data ordinal harus memakai satu keluarga pola yang sama.');
     }
+    const close: string[] = [];
     for (let i = 1; i < ranked.length; i++) {
       // Dibandingkan setelah dibulatkan karena renderer membulatkan jarak ke piksel utuh.
-      if (!(Math.round(ranked[i].spacingPx) < Math.round(ranked[i - 1].spacingPx))) {
+      const step = Math.round(ranked[i - 1].spacingPx) - Math.round(ranked[i].spacingPx);
+      if (!(step > 0)) {
         warnings.push(`Arsir "${ranked[i].name}" harus lebih rapat daripada "${ranked[i - 1].name}".`);
+      } else if (step < MIN_ORDINAL_STEP_PX) {
+        close.push(`"${ranked[i - 1].name}" → "${ranked[i].name}"`);
       }
+    }
+    if (close.length > 0) {
+      warnings.push(
+        `Selisih jarak arsir kurang dari ${MIN_ORDINAL_STEP_PX} px sehingga sulit dibedakan: ${close.join(', ')}.`,
+      );
     }
   }
 
